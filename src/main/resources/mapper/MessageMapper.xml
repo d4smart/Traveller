@@ -7,7 +7,7 @@
       <arg column="from" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="to" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="content" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="read" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="read" jdbcType="BIT" javaType="java.lang.Boolean" />
       <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
@@ -29,7 +29,7 @@
     insert into message (id, from, to, 
       content, read)
     values (#{id,jdbcType=INTEGER}, #{from,jdbcType=INTEGER}, #{to,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{read,jdbcType=TINYINT})
+      #{content,jdbcType=VARCHAR}, #{read,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Message" >
     insert into message
@@ -64,7 +64,7 @@
         #{content,jdbcType=VARCHAR},
       </if>
       <if test="read != null" >
-        #{read,jdbcType=TINYINT},
+        #{read,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -81,7 +81,7 @@
         content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="read != null" >
-        read = #{read,jdbcType=TINYINT},
+        read = #{read,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -91,7 +91,7 @@
     set from = #{from,jdbcType=INTEGER},
       to = #{to,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
-      read = #{read,jdbcType=TINYINT}
+      read = #{read,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

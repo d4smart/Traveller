@@ -10,9 +10,9 @@
       <arg column="phone" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="avatar" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="signature" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="can_login" jdbcType="TINYINT" javaType="java.lang.Byte" />
-      <arg column="can_publish" jdbcType="TINYINT" javaType="java.lang.Byte" />
-      <arg column="is_admin" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="can_login" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="can_publish" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="is_admin" jdbcType="BIT" javaType="java.lang.Boolean" />
       <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
@@ -38,8 +38,8 @@
       is_admin)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{gender,jdbcType=CHAR}, #{phone,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR}, 
-      #{signature,jdbcType=VARCHAR}, #{canLogin,jdbcType=TINYINT}, #{canPublish,jdbcType=TINYINT}, 
-      #{isAdmin,jdbcType=TINYINT})
+      #{signature,jdbcType=VARCHAR}, #{canLogin,jdbcType=BIT}, #{canPublish,jdbcType=BIT}, 
+      #{isAdmin,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.User" >
     insert into user
@@ -98,13 +98,13 @@
         #{signature,jdbcType=VARCHAR},
       </if>
       <if test="canLogin != null" >
-        #{canLogin,jdbcType=TINYINT},
+        #{canLogin,jdbcType=BIT},
       </if>
       <if test="canPublish != null" >
-        #{canPublish,jdbcType=TINYINT},
+        #{canPublish,jdbcType=BIT},
       </if>
       <if test="isAdmin != null" >
-        #{isAdmin,jdbcType=TINYINT},
+        #{isAdmin,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -130,13 +130,13 @@
         signature = #{signature,jdbcType=VARCHAR},
       </if>
       <if test="canLogin != null" >
-        can_login = #{canLogin,jdbcType=TINYINT},
+        can_login = #{canLogin,jdbcType=BIT},
       </if>
       <if test="canPublish != null" >
-        can_publish = #{canPublish,jdbcType=TINYINT},
+        can_publish = #{canPublish,jdbcType=BIT},
       </if>
       <if test="isAdmin != null" >
-        is_admin = #{isAdmin,jdbcType=TINYINT},
+        is_admin = #{isAdmin,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -149,9 +149,9 @@
       phone = #{phone,jdbcType=INTEGER},
       avatar = #{avatar,jdbcType=VARCHAR},
       signature = #{signature,jdbcType=VARCHAR},
-      can_login = #{canLogin,jdbcType=TINYINT},
-      can_publish = #{canPublish,jdbcType=TINYINT},
-      is_admin = #{isAdmin,jdbcType=TINYINT}
+      can_login = #{canLogin,jdbcType=BIT},
+      can_publish = #{canPublish,jdbcType=BIT},
+      is_admin = #{isAdmin,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

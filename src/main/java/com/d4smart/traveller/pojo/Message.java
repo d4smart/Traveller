@@ -11,13 +11,13 @@ public class Message {
 
     private String content;
 
-    private Byte read;
+    private Boolean read;
 
     private Date createTime;
 
     private Date updateTime;
 
-    public Message(Integer id, Integer from, Integer to, String content, Byte read, Date createTime, Date updateTime) {
+    public Message(Integer id, Integer from, Integer to, String content, Boolean read, Date createTime, Date updateTime) {
         this.id = id;
         this.from = from;
         this.to = to;
@@ -63,11 +63,11 @@ public class Message {
         this.content = content == null ? null : content.trim();
     }
 
-    public Byte getRead() {
+    public Boolean getRead() {
         return read;
     }
 
-    public void setRead(Byte read) {
+    public void setRead(Boolean read) {
         this.read = read;
     }
 

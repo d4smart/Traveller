@@ -23,13 +23,13 @@ public class Guide {
 
     private Integer score;
 
-    private Byte isPublished;
+    private Boolean isPublished;
 
     private Date createTime;
 
     private Date updateTime;
 
-    public Guide(Integer id, String title, Integer authorId, String places, String thumbnail, String content, Integer reads, Integer likes, Integer comments, Integer score, Byte isPublished, Date createTime, Date updateTime) {
+    public Guide(Integer id, String title, Integer authorId, String places, String thumbnail, String content, Integer reads, Integer likes, Integer comments, Integer score, Boolean isPublished, Date createTime, Date updateTime) {
         this.id = id;
         this.title = title;
         this.authorId = authorId;
@@ -129,11 +129,11 @@ public class Guide {
         this.score = score;
     }
 
-    public Byte getIsPublished() {
+    public Boolean getIsPublished() {
         return isPublished;
     }
 
-    public void setIsPublished(Byte isPublished) {
+    public void setIsPublished(Boolean isPublished) {
         this.isPublished = isPublished;
     }
 

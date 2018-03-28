@@ -13,7 +13,7 @@
       <arg column="likes" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="comments" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="score" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="is_published" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="is_published" jdbcType="BIT" javaType="java.lang.Boolean" />
       <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
@@ -40,7 +40,7 @@
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, 
       #{places,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
       #{reads,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, #{comments,jdbcType=INTEGER}, 
-      #{score,jdbcType=INTEGER}, #{isPublished,jdbcType=TINYINT})
+      #{score,jdbcType=INTEGER}, #{isPublished,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Guide" >
     insert into guide
@@ -111,7 +111,7 @@
         #{score,jdbcType=INTEGER},
       </if>
       <if test="isPublished != null" >
-        #{isPublished,jdbcType=TINYINT},
+        #{isPublished,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -146,7 +146,7 @@
         score = #{score,jdbcType=INTEGER},
       </if>
       <if test="isPublished != null" >
-        is_published = #{isPublished,jdbcType=TINYINT},
+        is_published = #{isPublished,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -162,7 +162,7 @@
       likes = #{likes,jdbcType=INTEGER},
       comments = #{comments,jdbcType=INTEGER},
       score = #{score,jdbcType=INTEGER},
-      is_published = #{isPublished,jdbcType=TINYINT}
+      is_published = #{isPublished,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

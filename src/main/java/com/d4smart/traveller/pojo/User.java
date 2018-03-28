@@ -17,17 +17,17 @@ public class User {
 
     private String signature;
 
-    private Byte canLogin;
+    private Boolean canLogin;
 
-    private Byte canPublish;
+    private Boolean canPublish;
 
-    private Byte isAdmin;
+    private Boolean isAdmin;
 
     private Date createTime;
 
     private Date updateTime;
 
-    public User(Integer id, String username, String password, String gender, Integer phone, String avatar, String signature, Byte canLogin, Byte canPublish, Byte isAdmin, Date createTime, Date updateTime) {
+    public User(Integer id, String username, String password, String gender, Integer phone, String avatar, String signature, Boolean canLogin, Boolean canPublish, Boolean isAdmin, Date createTime, Date updateTime) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -102,27 +102,27 @@ public class User {
         this.signature = signature == null ? null : signature.trim();
     }
 
-    public Byte getCanLogin() {
+    public Boolean getCanLogin() {
         return canLogin;
     }
 
-    public void setCanLogin(Byte canLogin) {
+    public void setCanLogin(Boolean canLogin) {
         this.canLogin = canLogin;
     }
 
-    public Byte getCanPublish() {
+    public Boolean getCanPublish() {
         return canPublish;
     }
 
-    public void setCanPublish(Byte canPublish) {
+    public void setCanPublish(Boolean canPublish) {
         this.canPublish = canPublish;
     }
 
-    public Byte getIsAdmin() {
+    public Boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setIsAdmin(Byte isAdmin) {
+    public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 
