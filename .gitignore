@@ -1,0 +1,30 @@
+# 数据库配置文件
+jdbc.properties
+
+*.class
+
+# package file
+*.jar
+*.war
+
+# maven file
+target/
+
+# idea file
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+# temp file
+*.log
+*.gz
+*.cache
+*.diff
+*.patch
+*.tmp
+
+# system file
+.DS_Store
+Thumbs.db

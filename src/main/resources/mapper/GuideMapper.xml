@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.d4smart.traveller.dao.GuideMapper" >
+  <resultMap id="BaseResultMap" type="com.d4smart.traveller.pojo.Guide" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="author_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="places" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="thumbnail" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="content" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="reads" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="likes" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="comments" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="score" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="is_published" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, author_id, places, thumbnail, content, reads, likes, comments, score, 
+    is_published, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from guide
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from guide
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.d4smart.traveller.pojo.Guide" >
+    insert into guide (id, title, author_id, 
+      places, thumbnail, content, 
+      reads, likes, comments, 
+      score, is_published)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, 
+      #{places,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{reads,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, #{comments,jdbcType=INTEGER}, 
+      #{score,jdbcType=INTEGER}, #{isPublished,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Guide" >
+    insert into guide
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="authorId != null" >
+        author_id,
+      </if>
+      <if test="places != null" >
+        places,
+      </if>
+      <if test="thumbnail != null" >
+        thumbnail,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="reads != null" >
+        reads,
+      </if>
+      <if test="likes != null" >
+        likes,
+      </if>
+      <if test="comments != null" >
+        comments,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="isPublished != null" >
+        is_published,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null" >
+        #{authorId,jdbcType=INTEGER},
+      </if>
+      <if test="places != null" >
+        #{places,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbnail != null" >
+        #{thumbnail,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="reads != null" >
+        #{reads,jdbcType=INTEGER},
+      </if>
+      <if test="likes != null" >
+        #{likes,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        #{comments,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="isPublished != null" >
+        #{isPublished,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.d4smart.traveller.pojo.Guide" >
+    update guide
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null" >
+        author_id = #{authorId,jdbcType=INTEGER},
+      </if>
+      <if test="places != null" >
+        places = #{places,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbnail != null" >
+        thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="reads != null" >
+        reads = #{reads,jdbcType=INTEGER},
+      </if>
+      <if test="likes != null" >
+        likes = #{likes,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        comments = #{comments,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="isPublished != null" >
+        is_published = #{isPublished,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.d4smart.traveller.pojo.Guide" >
+    update guide
+    set title = #{title,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=INTEGER},
+      places = #{places,jdbcType=VARCHAR},
+      thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      reads = #{reads,jdbcType=INTEGER},
+      likes = #{likes,jdbcType=INTEGER},
+      comments = #{comments,jdbcType=INTEGER},
+      score = #{score,jdbcType=INTEGER},
+      is_published = #{isPublished,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

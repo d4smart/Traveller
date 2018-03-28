@@ -1,0 +1,19 @@
+# 数据库驱动类名
+db.driver=com.mysql.jdbc.Driver
+# 数据库连接url
+db.url=jdbc:mysql://127.0.0.1:3306/traveller?characterEncoding=utf-8
+# 用户名，密码
+db.username=traveller
+db.password=123456
+
+# 数据库连接池配置
+db.initialSize = 20
+db.maxActive = 50
+db.maxIdle = 20
+db.minIdle = 10
+db.maxWait = 10
+db.defaultAutoCommit = true
+db.minEvictableIdleTimeMillis = 3600000
+
+# 数据库驱动的位置，被mybatis-generator使用
+db.driverLocation=C:/Users/23037/.m2/repository/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar

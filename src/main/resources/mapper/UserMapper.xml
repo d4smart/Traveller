@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.d4smart.traveller.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.d4smart.traveller.pojo.User" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="gender" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="phone" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="avatar" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="signature" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="can_login" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="can_publish" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="is_admin" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, password, gender, phone, avatar, signature, can_login, can_publish, 
+    is_admin, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.d4smart.traveller.pojo.User" >
+    insert into user (id, username, password, 
+      gender, phone, avatar, 
+      signature, can_login, can_publish, 
+      is_admin)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=CHAR}, #{phone,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR}, 
+      #{signature,jdbcType=VARCHAR}, #{canLogin,jdbcType=TINYINT}, #{canPublish,jdbcType=TINYINT}, 
+      #{isAdmin,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="signature != null" >
+        signature,
+      </if>
+      <if test="canLogin != null" >
+        can_login,
+      </if>
+      <if test="canPublish != null" >
+        can_publish,
+      </if>
+      <if test="isAdmin != null" >
+        is_admin,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=CHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=INTEGER},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="canLogin != null" >
+        #{canLogin,jdbcType=TINYINT},
+      </if>
+      <if test="canPublish != null" >
+        #{canPublish,jdbcType=TINYINT},
+      </if>
+      <if test="isAdmin != null" >
+        #{isAdmin,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.d4smart.traveller.pojo.User" >
+    update user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=INTEGER},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null" >
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="canLogin != null" >
+        can_login = #{canLogin,jdbcType=TINYINT},
+      </if>
+      <if test="canPublish != null" >
+        can_publish = #{canPublish,jdbcType=TINYINT},
+      </if>
+      <if test="isAdmin != null" >
+        is_admin = #{isAdmin,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.d4smart.traveller.pojo.User" >
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=CHAR},
+      phone = #{phone,jdbcType=INTEGER},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      can_login = #{canLogin,jdbcType=TINYINT},
+      can_publish = #{canPublish,jdbcType=TINYINT},
+      is_admin = #{isAdmin,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
