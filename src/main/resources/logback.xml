@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!-- 日志输出位置 -->
-    <property name="LOG_PATH" value="C:/Users/23037/IdeaProjects/SSMTemplate"/>
+    <property name="LOG_PATH" value="C:/Users/23037/IdeaProjects/Traveller"/>
 
     <!-- 控制台输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -16,11 +16,11 @@
 
     <!-- 文件输出 -->
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${LOG_PATH}/SSMTemplate.log</File>
+        <File>${LOG_PATH}/traveller.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/SSMTemplate.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/traveller.%d{yyyy-MM-dd}.log</fileNamePattern>
             <append>true</append>
-            <maxHistory>30</maxHistory>
+            <maxHistory>90</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>

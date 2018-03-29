@@ -1,0 +1,7 @@
+# 密码盐值的前缀和后缀
+password.salt.pre = 苟利国家生死以
+password.salt.suf = 岂因祸福避趋之
+
+# redis配置
+redis.ip = 127.0.0.1
+redis.port = 6379
