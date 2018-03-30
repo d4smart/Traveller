@@ -35,6 +35,25 @@ public class UserController {
         return serverResponse;
     }
 
+    @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+    public ServerResponse<User> getUserInfo(HttpSession session) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return ServerResponse.createBySuccess(user);
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ServerResponse<User> update(User user, HttpSession session) {
+        User login = (User) session.getAttribute(Const.LOGIN_USER);
+        user.setId(login.getId());
+
+        ServerResponse<User> serverResponse = userService.update(user);
+        if (serverResponse.isSuccess()) {
+            session.setAttribute(Const.LOGIN_USER, serverResponse.getData());
+        }
+
+        return serverResponse;
+    }
+
     @RequestMapping(value = "/checkValid", method = RequestMethod.GET)
     public ServerResponse<String> checkValid(String type, String value) {
         return userService.checkValid(type, value);

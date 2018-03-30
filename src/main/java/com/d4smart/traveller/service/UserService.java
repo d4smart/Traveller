@@ -24,19 +24,18 @@ public class UserService {
         }
 
         // 注册信息唯一性检查
-        if (user.getUsername() != null) {
-            if (userMapper.checkUnique(Const.USERNAME, user.getUsername()) > 0) {
-                return ServerResponse.createByErrorMessage("用户名已存在");
-            }
+        if (user.getUsername() != null && userMapper.checkUnique(Const.USERNAME, user.getUsername()) > 0) {
+            return ServerResponse.createByErrorMessage("用户名已存在");
         }
-        if (user.getPhone() != null) {
-            if (userMapper.checkUnique(Const.PHONE, user.getPhone().toString()) > 0) {
-                return ServerResponse.createByErrorMessage("手机号已存在");
-            }
+        if (user.getPhone() != null && userMapper.checkUnique(Const.PHONE, user.getPhone()) > 0) {
+            return ServerResponse.createByErrorMessage("手机号已存在");
         }
 
         // 用户信息设置
         user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
+        user.setCanLogin(null);
+        user.setCanPublish(null);
+        user.setIsAdmin(null);
 
         int count = userMapper.insertSelective(user);
         if (count == 0) {
@@ -57,6 +56,32 @@ public class UserService {
         user.setPassword(null);
 
         return ServerResponse.createBySuccess("登陆成功", user);
+    }
+
+    public ServerResponse<User> update(User user) {
+        // 注册信息唯一性检查
+        if (user.getUsername() != null && userMapper.checkUnique(Const.USERNAME, user.getUsername()) > 0) {
+            return ServerResponse.createByErrorMessage("用户名已存在");
+        }
+        if (user.getPhone() != null && userMapper.checkUnique(Const.PHONE, user.getPhone()) > 0) {
+            return ServerResponse.createByErrorMessage("手机号已存在");
+        }
+
+        // 用户信息设置
+        user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
+        user.setCanLogin(null);
+        user.setCanPublish(null);
+        user.setIsAdmin(null);
+
+        int count = userMapper.updateByPrimaryKeySelective(user);
+        if (count == 0) {
+            return ServerResponse.createByErrorMessage("更新用户信息失败");
+        }
+
+        user = userMapper.selectByPrimaryKey(user.getId());
+        user.setPassword(null);
+
+        return ServerResponse.createBySuccess("更新用户信息成功", user);
     }
 
     public ServerResponse<String> checkValid(String type, String value) {

@@ -7,7 +7,7 @@
       <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="gender" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="phone" jdbcType="INTEGER" javaType="java.lang.Long" />
+      <arg column="phone" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="avatar" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="signature" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="can_login" jdbcType="BIT" javaType="java.lang.Boolean" />
@@ -37,7 +37,7 @@
       signature, can_login, can_publish, 
       is_admin)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{gender,jdbcType=CHAR}, #{phone,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=CHAR}, #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
       #{signature,jdbcType=VARCHAR}, #{canLogin,jdbcType=BIT}, #{canPublish,jdbcType=BIT}, 
       #{isAdmin,jdbcType=BIT})
   </insert>
@@ -89,7 +89,7 @@
         #{gender,jdbcType=CHAR},
       </if>
       <if test="phone != null" >
-        #{phone,jdbcType=INTEGER},
+        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="avatar != null" >
         #{avatar,jdbcType=VARCHAR},
@@ -121,7 +121,7 @@
         gender = #{gender,jdbcType=CHAR},
       </if>
       <if test="phone != null" >
-        phone = #{phone,jdbcType=INTEGER},
+        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="avatar != null" >
         avatar = #{avatar,jdbcType=VARCHAR},
@@ -146,7 +146,7 @@
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=CHAR},
-      phone = #{phone,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       signature = #{signature,jdbcType=VARCHAR},
       can_login = #{canLogin,jdbcType=BIT},

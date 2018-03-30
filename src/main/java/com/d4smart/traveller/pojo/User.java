@@ -14,7 +14,7 @@ public class User {
 
     private String gender;
 
-    private Long phone;
+    private String phone;
 
     private String avatar;
 
@@ -30,7 +30,7 @@ public class User {
 
     private Date updateTime;
 
-    public User(Integer id, String username, String password, String gender, Long phone, String avatar, String signature, Boolean canLogin, Boolean canPublish, Boolean isAdmin, Date createTime, Date updateTime) {
+    public User(Integer id, String username, String password, String gender, String phone, String avatar, String signature, Boolean canLogin, Boolean canPublish, Boolean isAdmin, Date createTime, Date updateTime) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -81,11 +81,11 @@ public class User {
         this.gender = gender == null ? null : gender.trim();
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
