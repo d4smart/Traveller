@@ -1,7 +1,10 @@
 package com.d4smart.traveller.pojo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Date;
 
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class User {
     private Integer id;
 
@@ -11,7 +14,7 @@ public class User {
 
     private String gender;
 
-    private Integer phone;
+    private Long phone;
 
     private String avatar;
 
@@ -27,7 +30,7 @@ public class User {
 
     private Date updateTime;
 
-    public User(Integer id, String username, String password, String gender, Integer phone, String avatar, String signature, Boolean canLogin, Boolean canPublish, Boolean isAdmin, Date createTime, Date updateTime) {
+    public User(Integer id, String username, String password, String gender, Long phone, String avatar, String signature, Boolean canLogin, Boolean canPublish, Boolean isAdmin, Date createTime, Date updateTime) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -78,11 +81,11 @@ public class User {
         this.gender = gender == null ? null : gender.trim();
     }
 
-    public Integer getPhone() {
+    public Long getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 

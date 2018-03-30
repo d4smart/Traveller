@@ -7,7 +7,7 @@
       <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="gender" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="phone" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="phone" jdbcType="INTEGER" javaType="java.lang.Long" />
       <arg column="avatar" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="signature" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="can_login" jdbcType="BIT" javaType="java.lang.Boolean" />
@@ -154,4 +154,18 @@
       is_admin = #{isAdmin,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="checkUnique" parameterType="map" resultType="int">
+    select count(1)
+    from user
+    where ${type} = #{value}
+  </select>
+
+  <select id="login" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username}
+    and password = #{password}
+  </select>
 </mapper>

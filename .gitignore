@@ -2,6 +2,9 @@
 jdbc.properties
 traveller.properties
 
+# 前端路径
+front/
+
 *.class
 
 # package file

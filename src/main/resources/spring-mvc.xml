@@ -52,6 +52,7 @@
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/user/register"/>
             <mvc:exclude-mapping path="/user/login"/>
+            <mvc:exclude-mapping path="/user/checkValid"/>
             <bean class="com.d4smart.traveller.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

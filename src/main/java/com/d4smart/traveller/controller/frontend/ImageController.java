@@ -1,4 +1,4 @@
-package com.d4smart.traveller.controller;
+package com.d4smart.traveller.controller.frontend;
 
 import com.d4smart.traveller.common.ServerResponse;
 import com.d4smart.traveller.service.FileService;
