@@ -9,4 +9,8 @@ public class Const {
 
     public static final String USERNAME = "username";
     public static final String PHONE = "phone";
+
+    public static final String VIEW = "views";
+    public static final String LIKE = "likes";
+    public static final String COMMENT = "comments";
 }

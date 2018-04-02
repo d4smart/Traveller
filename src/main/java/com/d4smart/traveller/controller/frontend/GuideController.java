@@ -53,6 +53,11 @@ public class GuideController {
         return null;
     }
 
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public ServerResponse get(Integer id) {
+        return guideService.get(id);
+    }
+
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public ServerResponse delete(Integer id, HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);

@@ -18,8 +18,10 @@ public interface GuideMapper {
 
     int updateByPrimaryKey(Guide record);
 
-    List<Guide> getOrdersByPage(@Param("title") String title, @Param("authorId") Integer authorId, @Param("places") String places,
+    List<Guide> getGuidesByPage(@Param("title") String title, @Param("authorId") Integer authorId, @Param("places") String places,
                                 @Param("offset") Integer offset, @Param("limit") Integer limit);
 
-    int getOrderCount(@Param("title") String title, @Param("authorId") Integer authorId, @Param("places") String places);
+    int getGuideCount(@Param("title") String title, @Param("authorId") Integer authorId, @Param("places") String places);
+
+    int increase(@Param("field") String field, @Param("id") Integer id);
 }

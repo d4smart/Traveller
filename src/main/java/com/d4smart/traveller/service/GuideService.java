@@ -1,5 +1,6 @@
 package com.d4smart.traveller.service;
 
+import com.d4smart.traveller.common.Const;
 import com.d4smart.traveller.common.PageInfo;
 import com.d4smart.traveller.common.ResponseCode;
 import com.d4smart.traveller.common.ServerResponse;
@@ -24,7 +25,7 @@ public class GuideService {
             return ServerResponse.createByErrorMessage("文章信息不完整");
         }
 
-        guide.setReads(null);
+        guide.setViews(null);
         guide.setLikes(null);
         guide.setComments(null);
         guide.setScore(null);
@@ -52,7 +53,7 @@ public class GuideService {
         }
 
         guide.setAuthorId(null);
-        guide.setReads(null);
+        guide.setViews(null);
         guide.setLikes(null);
         guide.setComments(null);
         guide.setScore(null);
@@ -72,8 +73,8 @@ public class GuideService {
         }
 
         int offset = (pageNum - 1) * pageSize;
-        List<Guide> guides = guideMapper.getOrdersByPage(title, null, places, offset, pageSize);
-        int count = guideMapper.getOrderCount(title, null, places);
+        List<Guide> guides = guideMapper.getGuidesByPage(title, null, places, offset, pageSize);
+        int count = guideMapper.getGuideCount(title, null, places);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(guides);
@@ -83,13 +84,27 @@ public class GuideService {
 
     public ServerResponse list(Integer userId, Integer pageNum, Integer pageSize) {
         int offset = (pageNum - 1) * pageSize;
-        List<Guide> guides = guideMapper.getOrdersByPage(null, userId, null, offset, pageSize);
-        int count = guideMapper.getOrderCount(null, userId, null);
+        List<Guide> guides = guideMapper.getGuidesByPage(null, userId, null, offset, pageSize);
+        int count = guideMapper.getGuideCount(null, userId, null);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(guides);
 
         return ServerResponse.createBySuccess(pageInfo);
+    }
+
+    public ServerResponse get(Integer id) {
+        Guide guide = guideMapper.selectByPrimaryKey(id);
+        if (guide == null) {
+            return ServerResponse.createByErrorMessage("获取攻略失败");
+        }
+
+        int count = guideMapper.increase(Const.VIEW, id);
+        if (count == 0) {
+            return ServerResponse.createByErrorMessage("增加阅读数失败");
+        }
+
+        return ServerResponse.createBySuccess("获取攻略成功", guide);
     }
 
     public ServerResponse delete(Integer id, Integer userId) {

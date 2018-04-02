@@ -1,7 +1,10 @@
 package com.d4smart.traveller.pojo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Date;
 
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Guide {
     private Integer id;
 
@@ -15,7 +18,7 @@ public class Guide {
 
     private String content;
 
-    private Integer reads;
+    private Integer views;
 
     private Integer likes;
 
@@ -29,18 +32,31 @@ public class Guide {
 
     private Date updateTime;
 
-    public Guide(Integer id, String title, Integer authorId, String places, String thumbnail, String content, Integer reads, Integer likes, Integer comments, Integer score, Boolean isPublished, Date createTime, Date updateTime) {
+    public Guide(Integer id, String title, Integer authorId, String places, String thumbnail, String content, Integer views, Integer likes, Integer comments, Integer score, Boolean isPublished, Date createTime, Date updateTime) {
         this.id = id;
         this.title = title;
         this.authorId = authorId;
         this.places = places;
         this.thumbnail = thumbnail;
         this.content = content;
-        this.reads = reads;
+        this.views = views;
         this.likes = likes;
         this.comments = comments;
         this.score = score;
         this.isPublished = isPublished;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    public Guide(Integer id, String title, Integer authorId, String places, String thumbnail, Integer views, Integer likes, Integer comments, Date createTime, Date updateTime) {
+        this.id = id;
+        this.title = title;
+        this.authorId = authorId;
+        this.places = places;
+        this.thumbnail = thumbnail;
+        this.views = views;
+        this.likes = likes;
+        this.comments = comments;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
@@ -97,12 +113,12 @@ public class Guide {
         this.content = content == null ? null : content.trim();
     }
 
-    public Integer getReads() {
-        return reads;
+    public Integer getViews() {
+        return views;
     }
 
-    public void setReads(Integer reads) {
-        this.reads = reads;
+    public void setViews(Integer views) {
+        this.views = views;
     }
 
     public Integer getLikes() {

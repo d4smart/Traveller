@@ -68,7 +68,9 @@ public class UserService {
         }
 
         // 用户信息设置
-        user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
+        if (user.getPassword() != null) {
+            user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
+        }
         user.setCanLogin(null);
         user.setCanPublish(null);
         user.setIsAdmin(null);
