@@ -19,11 +19,11 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, author_id, places, thumbnail, content, reads, likes, comments, score, 
+    id, title, author_id, places, thumbnail, content, `reads`, likes, comments, score,
     is_published, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from guide
     where id = #{id,jdbcType=INTEGER}
@@ -165,4 +165,39 @@
       is_published = #{isPublished,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getOrdersByPage" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from guide
+    <where>
+      <if test="title != null">
+        and title like "%"#{title}"%"
+      </if>
+      <if test="authorId != null">
+        and author_id = #{authorId}
+      </if>
+      <if test="places != null">
+        and places like "%"#{places}"%"
+      </if>
+    </where>
+    order by id desc
+    limit #{offset}, #{limit}
+  </select>
+
+  <select id="getOrderCount" parameterType="map" resultType="int">
+    select count(1)
+    from guide
+    <where>
+      <if test="title != null">
+        and title like "%"#{title}"%"
+      </if>
+      <if test="authorId != null">
+        and author_id = #{authorId}
+      </if>
+      <if test="places != null">
+        and places like "%"#{places}"%"
+      </if>
+    </where>
+  </select>
 </mapper>
