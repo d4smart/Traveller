@@ -70,4 +70,27 @@
       path = #{path,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getImagesByPage" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from image
+    <where>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+    </where>
+    order by id desc
+    limit #{offset}, #{limit}
+  </select>
+
+  <select id="getImageCount" parameterType="map" resultType="int">
+    select count(1)
+    from image
+    <where>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+    </where>
+  </select>
 </mapper>

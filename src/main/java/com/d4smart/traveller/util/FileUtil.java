@@ -1,23 +1,20 @@
-package com.d4smart.traveller.service;
+package com.d4smart.traveller.util;
 
-import com.d4smart.traveller.common.ServerResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by d4smart on 2018/3/29 16:19
+ * Created by d4smart on 2018/4/2 10:12
  */
-@Service("fileService")
-public class FileService {
+public class FileUtil {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
-    public ServerResponse upload(MultipartFile file, String path) {
+    public static Boolean upload(MultipartFile file, String path) {
         // 创建父目录
         File dirs = new File(path).getParentFile();
         if (!dirs.exists()) {
@@ -31,10 +28,22 @@ public class FileService {
             file.transferTo(targetFile);
         } catch (IOException e) {
             logger.error("上传文件异常", e);
-            return ServerResponse.createByErrorMessage("上传文件异常");
+            return false;
         }
         logger.info("上传文件成功，文件名为：{}", targetFile.getName());
 
-        return ServerResponse.createBySuccessMessage("上传文件成功");
+        return true;
+    }
+
+    public static Boolean delete(String path) {
+        logger.info("开始删除文件，文件路径：{}", path);
+        File file = new File(path);
+        Boolean result = file.delete();
+        if (!result) {
+            logger.error("删除文件失败");
+            return false;
+        }
+        logger.info("删除文件成功");
+        return true;
     }
 }

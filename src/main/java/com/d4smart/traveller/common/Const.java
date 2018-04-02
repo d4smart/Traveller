@@ -9,9 +9,4 @@ public class Const {
 
     public static final String USERNAME = "username";
     public static final String PHONE = "phone";
-
-    public interface Role {
-        int NORMAL = 1;
-        int LOCKED = 0;
-    }
 }
