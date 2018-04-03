@@ -22,7 +22,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ServerResponse<String> register(User user) {
+    public ServerResponse register(User user) {
         return userService.register(user);
     }
 
@@ -55,12 +55,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/checkValid", method = RequestMethod.GET)
-    public ServerResponse<String> checkValid(String type, String value) {
+    public ServerResponse checkValid(String type, String value) {
         return userService.checkValid(type, value);
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public ServerResponse<String> logout(HttpSession session) {
+    public ServerResponse logout(HttpSession session) {
         session.removeAttribute(Const.LOGIN_USER);
         return ServerResponse.createBySuccessMessage("退出登陆成功");
     }

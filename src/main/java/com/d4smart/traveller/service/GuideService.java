@@ -67,7 +67,7 @@ public class GuideService {
         return ServerResponse.createBySuccessMessage("更新攻略成功");
     }
 
-    public ServerResponse search(String title, String places, int pageNum, int pageSize) {
+    public ServerResponse<PageInfo> search(String title, String places, int pageNum, int pageSize) {
         if (title == null && places == null) {
             return ServerResponse.createByErrorMessage("搜索条件不合法");
         }
@@ -82,7 +82,7 @@ public class GuideService {
         return ServerResponse.createBySuccess(pageInfo);
     }
 
-    public ServerResponse list(Integer userId, int pageNum, int pageSize) {
+    public ServerResponse<PageInfo> list(Integer userId, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
         List<Guide> guides = guideMapper.getGuidesByPage(null, userId, null, offset, pageSize);
         int count = guideMapper.getGuideCount(null, userId, null);
@@ -93,7 +93,7 @@ public class GuideService {
         return ServerResponse.createBySuccess(pageInfo);
     }
 
-    public ServerResponse get(Integer id) {
+    public ServerResponse<Guide> get(Integer id) {
         Guide guide = guideMapper.selectByPrimaryKey(id);
         if (guide == null) {
             return ServerResponse.createByErrorMessage("获取攻略失败");

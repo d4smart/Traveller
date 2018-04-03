@@ -25,7 +25,7 @@ public class ImageService {
 
     private static final String frontLocation = PropertiesUtil.getProperty("front.location");
 
-    public ServerResponse upload(MultipartFile file, Integer userId) {
+    public ServerResponse<String> upload(MultipartFile file, Integer userId) {
         String filename = file.getOriginalFilename();
         // todo 图片格式判断
         String path = getPath(filename);
@@ -64,7 +64,7 @@ public class ImageService {
         return ServerResponse.createBySuccessMessage("图片编辑成功");
     }
 
-    public ServerResponse getAll(Integer userId, int pageNum, int pageSize) {
+    public ServerResponse<PageInfo> getAll(Integer userId, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
         List<Image> images = imageMapper.getImagesByPage(userId, offset, pageSize);
         int count = imageMapper.getImageCount(userId);

@@ -18,7 +18,7 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public ServerResponse<String> register(User user) {
+    public ServerResponse register(User user) {
         if (user.getUsername() == null || user.getPassword() == null) {
             return ServerResponse.createByErrorMessage("用户信息不完整");
         }
@@ -86,7 +86,7 @@ public class UserService {
         return ServerResponse.createBySuccess("更新用户信息成功", user);
     }
 
-    public ServerResponse<String> checkValid(String type, String value) {
+    public ServerResponse checkValid(String type, String value) {
         if (StringUtils.isBlank(type)) {
             return ServerResponse.createByErrorMessage("参数错误");
         }

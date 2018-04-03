@@ -1,6 +1,7 @@
 package com.d4smart.traveller.controller.frontend;
 
 import com.d4smart.traveller.common.Const;
+import com.d4smart.traveller.common.PageInfo;
 import com.d4smart.traveller.common.ServerResponse;
 import com.d4smart.traveller.pojo.User;
 import com.d4smart.traveller.service.ImageService;
@@ -24,7 +25,7 @@ public class ImageController {
     private ImageService imageService;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public ServerResponse upload(@RequestParam(value = "image") MultipartFile file, HttpSession session) {
+    public ServerResponse<String> upload(@RequestParam(value = "image") MultipartFile file, HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
         return imageService.upload(file, user.getId());
     }
@@ -36,7 +37,7 @@ public class ImageController {
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public ServerResponse getAll(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    public ServerResponse<PageInfo> getAll(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
         return imageService.getAll(user.getId(), pageNum, pageSize);
     }
