@@ -37,19 +37,19 @@ public class GuideController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ServerResponse search(String title, String places, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public ServerResponse search(String title, String places, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         return guideService.search(title, places, pageNum, pageSize);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ServerResponse list(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public ServerResponse list(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
         return guideService.list(user.getId(), pageNum, pageSize);
     }
 
     // todo 根据用户关注生成的攻略动态
     @RequestMapping(value = "/dynamic", method = RequestMethod.GET)
-    public ServerResponse dynamic(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public ServerResponse dynamic(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         return null;
     }
 

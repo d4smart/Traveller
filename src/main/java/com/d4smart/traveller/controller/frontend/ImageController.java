@@ -36,7 +36,7 @@ public class ImageController {
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public ServerResponse getAll(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public ServerResponse getAll(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
         return imageService.getAll(user.getId(), pageNum, pageSize);
     }

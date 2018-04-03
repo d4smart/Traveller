@@ -22,7 +22,7 @@ public class GuideService {
 
     public ServerResponse publish(Guide guide) {
         if (guide.getTitle() == null || guide.getPlaces() == null || guide.getContent() == null) {
-            return ServerResponse.createByErrorMessage("文章信息不完整");
+            return ServerResponse.createByErrorMessage("攻略信息不完整");
         }
 
         guide.setViews(null);
@@ -67,7 +67,7 @@ public class GuideService {
         return ServerResponse.createBySuccessMessage("更新攻略成功");
     }
 
-    public ServerResponse search(String title, String places, Integer pageNum, Integer pageSize) {
+    public ServerResponse search(String title, String places, int pageNum, int pageSize) {
         if (title == null && places == null) {
             return ServerResponse.createByErrorMessage("搜索条件不合法");
         }
@@ -82,7 +82,7 @@ public class GuideService {
         return ServerResponse.createBySuccess(pageInfo);
     }
 
-    public ServerResponse list(Integer userId, Integer pageNum, Integer pageSize) {
+    public ServerResponse list(Integer userId, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
         List<Guide> guides = guideMapper.getGuidesByPage(null, userId, null, offset, pageSize);
         int count = guideMapper.getGuideCount(null, userId, null);

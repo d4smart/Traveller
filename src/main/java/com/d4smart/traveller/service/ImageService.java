@@ -64,10 +64,10 @@ public class ImageService {
         return ServerResponse.createBySuccessMessage("图片编辑成功");
     }
 
-    public ServerResponse getAll(Integer userId, Integer pageNum, Integer pageSize) {
-        Integer offset = (pageNum - 1) * pageSize;
+    public ServerResponse getAll(Integer userId, int pageNum, int pageSize) {
+        int offset = (pageNum - 1) * pageSize;
         List<Image> images = imageMapper.getImagesByPage(userId, offset, pageSize);
-        Integer count = imageMapper.getImageCount(userId);
+        int count = imageMapper.getImageCount(userId);
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(images);
         return ServerResponse.createBySuccess(pageInfo);
