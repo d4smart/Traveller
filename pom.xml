@@ -3,7 +3,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.d4smart</groupId>
-  <artifactId>Traveller</artifactId>
+  <artifactId>traveller</artifactId>
   <packaging>war</packaging>
   <version>1.0</version>
   <name>Traveller Maven Webapp</name>
@@ -161,7 +161,7 @@
   </dependencies>
 
   <build>
-    <finalName>Traveller</finalName>
+    <finalName>traveller</finalName>
 
     <plugins>
       <!-- 根据数据库信息自动生成pojo，dao和xml代码 -->
