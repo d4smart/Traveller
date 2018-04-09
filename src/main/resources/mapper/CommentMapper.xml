@@ -26,17 +26,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.d4smart.traveller.pojo.Comment" >
-    insert into comment (id, user_id, guide_id, 
+    insert into comment (user_id, guide_id,
       content, likes)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{guideId,jdbcType=INTEGER}, 
+    values (#{userId,jdbcType=INTEGER}, #{guideId,jdbcType=INTEGER},
       #{content,jdbcType=VARCHAR}, #{likes,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Comment" >
     insert into comment
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="userId != null" >
         user_id,
       </if>
@@ -51,9 +48,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>

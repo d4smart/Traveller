@@ -50,11 +50,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.d4smart.traveller.pojo.Guide" >
-    insert into guide (id, title, author_id, 
+    insert into guide (title, author_id,
       places, thumbnail, content, 
       views, likes, comments,
       score, is_published)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, 
+    values (#{title,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER},
       #{places,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
       #{views,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, #{comments,jdbcType=INTEGER},
       #{score,jdbcType=INTEGER}, #{isPublished,jdbcType=BIT})
@@ -62,9 +62,6 @@
   <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Guide" >
     insert into guide
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="title != null" >
         title,
       </if>
@@ -97,9 +94,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
       </if>
@@ -197,6 +191,9 @@
       <if test="places != null">
         and places like "%"#{places}"%"
       </if>
+      <if test="isPublished != null">
+        and is_published = #{isPublished}
+      </if>
     </where>
     order by id desc
     limit #{offset}, #{limit}
@@ -214,6 +211,9 @@
       </if>
       <if test="places != null">
         and places like "%"#{places}"%"
+      </if>
+      <if test="isPublished != null">
+        and is_published = #{isPublished}
       </if>
     </where>
   </select>

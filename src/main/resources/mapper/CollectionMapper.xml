@@ -24,15 +24,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.d4smart.traveller.pojo.Collection" >
-    insert into collection (id, user_id, guide_id)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{guideId,jdbcType=INTEGER})
+    insert into collection (user_id, guide_id)
+    values (#{userId,jdbcType=INTEGER}, #{guideId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Collection" >
     insert into collection
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="userId != null" >
         user_id,
       </if>
@@ -41,9 +38,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>

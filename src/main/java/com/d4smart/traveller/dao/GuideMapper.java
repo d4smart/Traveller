@@ -19,9 +19,9 @@ public interface GuideMapper {
     int updateByPrimaryKey(Guide record);
 
     List<Guide> getGuidesByPage(@Param("title") String title, @Param("authorId") Integer authorId, @Param("places") String places,
-                                @Param("offset") Integer offset, @Param("limit") Integer limit);
+                                @Param("isPublished") Boolean isPublished, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
-    int getGuideCount(@Param("title") String title, @Param("authorId") Integer authorId, @Param("places") String places);
+    int getGuideCount(@Param("title") String title, @Param("authorId") Integer authorId, @Param("places") String places, @Param("isPublished") Boolean isPublished);
 
     int increase(@Param("field") String field, @Param("id") Integer id);
 }

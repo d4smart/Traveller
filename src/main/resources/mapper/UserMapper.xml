@@ -32,11 +32,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.d4smart.traveller.pojo.User" >
-    insert into user (id, username, password, 
+    insert into user (username, password,
       gender, phone, avatar, 
       signature, can_login, can_publish, 
       is_admin)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{gender,jdbcType=CHAR}, #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
       #{signature,jdbcType=VARCHAR}, #{canLogin,jdbcType=BIT}, #{canPublish,jdbcType=BIT}, 
       #{isAdmin,jdbcType=BIT})
@@ -44,9 +44,6 @@
   <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="username != null" >
         username,
       </if>
@@ -76,9 +73,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="username != null" >
         #{username,jdbcType=VARCHAR},
       </if>
@@ -167,5 +161,6 @@
     from user
     where username = #{username}
     and password = #{password}
+    and can_login = 1
   </select>
 </mapper>

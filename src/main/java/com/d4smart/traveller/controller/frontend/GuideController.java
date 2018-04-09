@@ -27,8 +27,7 @@ public class GuideController {
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
     public ServerResponse publish(Guide guide, HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
-        guide.setAuthorId(user.getId());
-        return guideService.publish(guide);
+        return guideService.publish(guide, user);
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -39,19 +38,13 @@ public class GuideController {
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ServerResponse<PageInfo> search(String title, String places, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
-        return guideService.search(title, places, pageNum, pageSize);
+        return guideService.search(title, places, true, pageNum, pageSize);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ServerResponse<PageInfo> list(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
-        return guideService.list(user.getId(), pageNum, pageSize);
-    }
-
-    // todo 根据用户关注生成的攻略动态
-    @RequestMapping(value = "/dynamic", method = RequestMethod.GET)
-    public ServerResponse dynamic(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
-        return null;
+        return guideService.list(user.getId(), true, pageNum, pageSize);
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)

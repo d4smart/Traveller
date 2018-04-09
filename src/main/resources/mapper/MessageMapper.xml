@@ -26,17 +26,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.d4smart.traveller.pojo.Message" >
-    insert into message (id, from, to, 
+    insert into message (from, to,
       content, read)
-    values (#{id,jdbcType=INTEGER}, #{from,jdbcType=INTEGER}, #{to,jdbcType=INTEGER}, 
+    values (#{from,jdbcType=INTEGER}, #{to,jdbcType=INTEGER},
       #{content,jdbcType=VARCHAR}, #{read,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Message" >
     insert into message
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="from != null" >
         from,
       </if>
@@ -51,9 +48,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="from != null" >
         #{from,jdbcType=INTEGER},
       </if>

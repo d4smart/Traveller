@@ -27,17 +27,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.d4smart.traveller.pojo.Point" >
-    insert into point (id, trail_id, order, 
+    insert into point (trail_id, order,
       longitude, latitude, description)
-    values (#{id,jdbcType=INTEGER}, #{trailId,jdbcType=INTEGER}, #{order,jdbcType=INTEGER}, 
+    values (#{trailId,jdbcType=INTEGER}, #{order,jdbcType=INTEGER},
       #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Point" >
     insert into point
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="trailId != null" >
         trail_id,
       </if>
@@ -55,9 +52,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="trailId != null" >
         #{trailId,jdbcType=INTEGER},
       </if>

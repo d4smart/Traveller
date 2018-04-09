@@ -6,6 +6,7 @@ import com.d4smart.traveller.common.ResponseCode;
 import com.d4smart.traveller.common.ServerResponse;
 import com.d4smart.traveller.dao.GuideMapper;
 import com.d4smart.traveller.pojo.Guide;
+import com.d4smart.traveller.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +21,19 @@ public class GuideService {
     @Autowired
     private GuideMapper guideMapper;
 
-    public ServerResponse publish(Guide guide) {
+    public ServerResponse publish(Guide guide, User user) {
         if (guide.getTitle() == null || guide.getPlaces() == null || guide.getContent() == null) {
             return ServerResponse.createByErrorMessage("攻略信息不完整");
         }
+        if (!user.getCanPublish()) {
+            return ServerResponse.createByErrorMessage("暂时不可以发布攻略，如有疑问，请联系后台管理员");
+        }
 
+        guide.setAuthorId(user.getId());
         guide.setViews(null);
         guide.setLikes(null);
         guide.setComments(null);
         guide.setScore(null);
-        guide.setIsPublished(null);
 
         int count = guideMapper.insertSelective(guide);
         if (count == 0) {
@@ -57,7 +61,6 @@ public class GuideService {
         guide.setLikes(null);
         guide.setComments(null);
         guide.setScore(null);
-        guide.setIsPublished(null);
 
         int count = guideMapper.updateByPrimaryKeySelective(guide);
         if (count == 0) {
@@ -67,14 +70,14 @@ public class GuideService {
         return ServerResponse.createBySuccessMessage("更新攻略成功");
     }
 
-    public ServerResponse<PageInfo> search(String title, String places, int pageNum, int pageSize) {
+    public ServerResponse<PageInfo> search(String title, String places, Boolean isPublished, int pageNum, int pageSize) {
         if (title == null && places == null) {
             return ServerResponse.createByErrorMessage("搜索条件不合法");
         }
 
         int offset = (pageNum - 1) * pageSize;
-        List<Guide> guides = guideMapper.getGuidesByPage(title, null, places, offset, pageSize);
-        int count = guideMapper.getGuideCount(title, null, places);
+        List<Guide> guides = guideMapper.getGuidesByPage(title, null, places, isPublished, offset, pageSize);
+        int count = guideMapper.getGuideCount(title, null, places, isPublished);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(guides);
@@ -82,10 +85,10 @@ public class GuideService {
         return ServerResponse.createBySuccess(pageInfo);
     }
 
-    public ServerResponse<PageInfo> list(Integer userId, int pageNum, int pageSize) {
+    public ServerResponse<PageInfo> list(Integer userId, Boolean isPublished, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
-        List<Guide> guides = guideMapper.getGuidesByPage(null, userId, null, offset, pageSize);
-        int count = guideMapper.getGuideCount(null, userId, null);
+        List<Guide> guides = guideMapper.getGuidesByPage(null, userId, null, isPublished, offset, pageSize);
+        int count = guideMapper.getGuideCount(null, userId, null, isPublished);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(guides);
