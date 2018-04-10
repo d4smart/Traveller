@@ -52,6 +52,9 @@ public class UserService {
         if (user == null) {
             return ServerResponse.createByErrorMessage("用户名与密码不匹配");
         }
+        if (!user.getCanLogin()) {
+            return ServerResponse.createByErrorMessage("暂时不可以登陆，如有疑问，请联系后台管理员");
+        }
 
         user.setPassword(null);
 

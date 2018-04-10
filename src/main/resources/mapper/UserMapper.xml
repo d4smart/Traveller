@@ -161,6 +161,5 @@
     from user
     where username = #{username}
     and password = #{password}
-    and can_login = 1
   </select>
 </mapper>

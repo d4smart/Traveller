@@ -101,11 +101,15 @@ public class GuideService {
         if (guide == null) {
             return ServerResponse.createByErrorMessage("获取攻略失败");
         }
+        if (!guide.getIsPublished()) {
+            return ServerResponse.createByErrorMessage("攻略未发布，无法查看内容");
+        }
 
         int count = guideMapper.increase(Const.VIEW, id);
         if (count == 0) {
             return ServerResponse.createByErrorMessage("增加阅读数失败");
         }
+        guide.setViews(guide.getViews() + 1);
 
         return ServerResponse.createBySuccess("获取攻略成功", guide);
     }
