@@ -223,4 +223,10 @@
     set ${field} = ${field} + 1
     where id = #{id}
   </update>
+
+  <update id="decrease" parameterType="map">
+    update guide
+    set ${field} = ${field} - 1
+    where id = #{id}
+  </update>
 </mapper>

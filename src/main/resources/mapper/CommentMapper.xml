@@ -88,4 +88,39 @@
       likes = #{likes,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getCommentsByPage" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from comment
+    <where>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+      <if test="guideId != null">
+        and guide_id = #{guideId}
+      </if>
+    </where>
+    order by id desc
+    limit #{offset}, #{limit}
+  </select>
+
+  <select id="getCommentCount" parameterType="map" resultType="int">
+    select count(1)
+    from comment
+    <where>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+      <if test="guideId != null">
+        and guide_id = #{guideId}
+      </if>
+    </where>
+  </select>
+
+  <update id="like" parameterType="int">
+    update comment
+    set likes = likes + 1
+    where id = #{id}
+  </update>
 </mapper>
