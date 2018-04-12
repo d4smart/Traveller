@@ -52,6 +52,12 @@ public class GuideController {
         return guideService.get(id);
     }
 
+    @RequestMapping(value = "/like", method = RequestMethod.POST)
+    public ServerResponse like(Integer id, HttpSession session) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return guideService.like(id, user.getId());
+    }
+
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public ServerResponse delete(Integer id, HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);

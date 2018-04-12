@@ -5,6 +5,7 @@ import com.d4smart.traveller.common.PageInfo;
 import com.d4smart.traveller.common.ResponseCode;
 import com.d4smart.traveller.common.ServerResponse;
 import com.d4smart.traveller.dao.GuideMapper;
+import com.d4smart.traveller.dao.cache.RedisDao;
 import com.d4smart.traveller.pojo.Guide;
 import com.d4smart.traveller.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class GuideService {
 
     @Autowired
     private GuideMapper guideMapper;
+
+    @Autowired
+    private RedisDao redisDao;
 
     public ServerResponse publish(Guide guide, User user) {
         if (guide.getTitle() == null || guide.getPlaces() == null || guide.getContent() == null) {
@@ -112,6 +116,28 @@ public class GuideService {
         guide.setViews(guide.getViews() + 1);
 
         return ServerResponse.createBySuccess("获取攻略成功", guide);
+    }
+
+    public ServerResponse like(Integer id, Integer userId) {
+        Guide guide = guideMapper.selectByPrimaryKey(id);
+        if (guide == null) {
+            return ServerResponse.createByErrorMessage("要点赞的攻略不存在");
+        }
+        if (!guide.getIsPublished()) {
+            return ServerResponse.createByErrorMessage("攻略未发布，无法点赞");
+        }
+
+        String key = "guide:" + id;
+        if (!redisDao.like(key, userId)) {
+            return ServerResponse.createByErrorMessage("请不要重复点赞");
+        }
+
+        int count = guideMapper.increase(Const.LIKE, id);
+        if (count == 0) {
+            return ServerResponse.createByErrorMessage("增加攻略点赞数失败");
+        }
+
+        return ServerResponse.createBySuccessMessage("点赞成功");
     }
 
     public ServerResponse delete(Integer id, Integer userId) {
