@@ -123,4 +123,10 @@
     set likes = likes + 1
     where id = #{id}
   </update>
+
+  <update id="unlike" parameterType="int">
+    update comment
+    set likes = likes - 1
+    where id = #{id}
+  </update>
 </mapper>

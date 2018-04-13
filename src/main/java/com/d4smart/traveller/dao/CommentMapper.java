@@ -20,6 +20,8 @@ public interface CommentMapper {
 
     int like(Integer id);
 
+    int unlike(Integer id);
+
     List<Comment> getCommentsByPage(@Param("userId") Integer userId, @Param("guideId") Integer guideId,
                                     @Param("offset") Integer offset, @Param("limit") Integer limit);
 

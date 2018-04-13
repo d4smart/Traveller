@@ -48,6 +48,18 @@ public class CommentController {
         return commentService.list(userId, guideId, user.getId(), pageNum, pageSize);
     }
 
+    @RequestMapping(value = "/like", method = RequestMethod.POST)
+    public ServerResponse like(Integer id, HttpSession session) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return commentService.like(id, user.getId());
+    }
+
+    @RequestMapping(value = "/unlike", method = RequestMethod.POST)
+    public ServerResponse unlike(Integer id, HttpSession session) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return commentService.unlike(id, user.getId());
+    }
+
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public ServerResponse delete(Integer id, HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);

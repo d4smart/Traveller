@@ -140,6 +140,28 @@ public class GuideService {
         return ServerResponse.createBySuccessMessage("点赞成功");
     }
 
+    public ServerResponse unlike(Integer id, Integer userId) {
+        Guide guide = guideMapper.selectByPrimaryKey(id);
+        if (guide == null) {
+            return ServerResponse.createByErrorMessage("要取消点赞的攻略不存在");
+        }
+        if (!guide.getIsPublished()) {
+            return ServerResponse.createByErrorMessage("攻略未发布，无法取消点赞");
+        }
+
+        String key = "guide:" + id;
+        if (!redisDao.unlike(key, userId)) {
+            return ServerResponse.createByErrorMessage("您之前没点过赞，无法取消点赞");
+        }
+
+        int count = guideMapper.decrease(Const.LIKE, id);
+        if (count == 0) {
+            return ServerResponse.createByErrorMessage("减少攻略点赞数失败");
+        }
+
+        return ServerResponse.createBySuccessMessage("取消点赞成功");
+    }
+
     public ServerResponse delete(Integer id, Integer userId) {
         Guide guide = guideMapper.selectByPrimaryKey(id);
         if (guide == null) {

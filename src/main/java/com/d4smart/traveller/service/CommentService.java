@@ -6,6 +6,7 @@ import com.d4smart.traveller.common.ResponseCode;
 import com.d4smart.traveller.common.ServerResponse;
 import com.d4smart.traveller.dao.CommentMapper;
 import com.d4smart.traveller.dao.GuideMapper;
+import com.d4smart.traveller.dao.cache.RedisDao;
 import com.d4smart.traveller.pojo.Comment;
 import com.d4smart.traveller.pojo.Guide;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,9 @@ public class CommentService {
 
     @Autowired
     private GuideMapper guideMapper;
+
+    @Autowired
+    private RedisDao redisDao;
 
     public ServerResponse add(Integer userId, Integer guideId, String content) {
         if (guideId == null || StringUtils.isBlank(content)) {
@@ -107,6 +111,44 @@ public class CommentService {
         pageInfo.setList(comments);
 
         return ServerResponse.createBySuccess(pageInfo);
+    }
+
+    public ServerResponse like(Integer id, Integer userId) {
+        Comment comment = commentMapper.selectByPrimaryKey(id);
+        if (comment == null) {
+            return ServerResponse.createByErrorMessage("要点赞的评论不存在");
+        }
+
+        String key = "comment:" + id;
+        if (!redisDao.like(key, userId)) {
+            return ServerResponse.createByErrorMessage("请不要重复点赞");
+        }
+
+        int count = commentMapper.like(id);
+        if (count == 0) {
+            return ServerResponse.createByErrorMessage("增加评论点赞数失败");
+        }
+
+        return ServerResponse.createBySuccessMessage("点赞成功");
+    }
+
+    public ServerResponse unlike(Integer id, Integer userId) {
+        Comment comment = commentMapper.selectByPrimaryKey(id);
+        if (comment == null) {
+            return ServerResponse.createByErrorMessage("要取消点赞的评论不存在");
+        }
+
+        String key = "comment:" + id;
+        if (!redisDao.unlike(key, userId)) {
+            return ServerResponse.createByErrorMessage("您之前没有点过赞，无法取消点赞");
+        }
+
+        int count = commentMapper.unlike(id);
+        if (count == 0) {
+            return ServerResponse.createByErrorMessage("减少评论点赞数失败");
+        }
+
+        return ServerResponse.createBySuccessMessage("取消点赞成功");
     }
 
     public ServerResponse delete(Integer id, Integer userId) {
