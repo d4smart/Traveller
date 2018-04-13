@@ -66,8 +66,8 @@ public class ImageService {
 
     public ServerResponse<PageInfo> getAll(Integer userId, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
-        List<Image> images = imageMapper.getImagesByPage(userId, offset, pageSize);
-        int count = imageMapper.getImageCount(userId);
+        List<Image> images = imageMapper.getByPage(userId, offset, pageSize);
+        int count = imageMapper.getCount(userId);
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(images);
         return ServerResponse.createBySuccess(pageInfo);

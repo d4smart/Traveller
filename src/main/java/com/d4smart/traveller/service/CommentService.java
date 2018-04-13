@@ -104,8 +104,8 @@ public class CommentService {
         }
 
         int offset = (pageNum - 1) * pageSize;
-        List<Comment> comments = commentMapper.getCommentsByPage(userId, guideId, offset, pageSize);
-        int count = commentMapper.getCommentCount(userId, guideId);
+        List<Comment> comments = commentMapper.getByPage(userId, guideId, offset, pageSize);
+        int count = commentMapper.getCount(userId, guideId);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(comments);

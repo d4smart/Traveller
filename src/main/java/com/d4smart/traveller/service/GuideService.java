@@ -80,8 +80,8 @@ public class GuideService {
         }
 
         int offset = (pageNum - 1) * pageSize;
-        List<Guide> guides = guideMapper.getGuidesByPage(title, null, places, isPublished, offset, pageSize);
-        int count = guideMapper.getGuideCount(title, null, places, isPublished);
+        List<Guide> guides = guideMapper.getByPage(title, null, places, isPublished, offset, pageSize);
+        int count = guideMapper.getCount(title, null, places, isPublished);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(guides);
@@ -91,8 +91,8 @@ public class GuideService {
 
     public ServerResponse<PageInfo> list(Integer userId, Boolean isPublished, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
-        List<Guide> guides = guideMapper.getGuidesByPage(null, userId, null, isPublished, offset, pageSize);
-        int count = guideMapper.getGuideCount(null, userId, null, isPublished);
+        List<Guide> guides = guideMapper.getByPage(null, userId, null, isPublished, offset, pageSize);
+        int count = guideMapper.getCount(null, userId, null, isPublished);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(guides);

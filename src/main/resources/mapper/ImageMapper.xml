@@ -65,7 +65,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getImagesByPage" parameterType="map" resultMap="BaseResultMap">
+  <select id="getByPage" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from image
@@ -78,7 +78,7 @@
     limit #{offset}, #{limit}
   </select>
 
-  <select id="getImageCount" parameterType="map" resultType="int">
+  <select id="getCount" parameterType="map" resultType="int">
     select count(1)
     from image
     <where>

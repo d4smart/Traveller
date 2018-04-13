@@ -177,7 +177,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getGuidesByPage" parameterType="map" resultMap="SimpleResultMap">
+  <select id="getByPage" parameterType="map" resultMap="SimpleResultMap">
     select
     <include refid="Simple_Column_List"/>
     from guide
@@ -199,7 +199,7 @@
     limit #{offset}, #{limit}
   </select>
 
-  <select id="getGuideCount" parameterType="map" resultType="int">
+  <select id="getCount" parameterType="map" resultType="int">
     select count(1)
     from guide
     <where>

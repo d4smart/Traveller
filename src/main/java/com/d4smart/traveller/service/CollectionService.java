@@ -53,8 +53,8 @@ public class CollectionService {
 
     public ServerResponse<PageInfo> list(Integer userId, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
-        List<Collection> collections = collectionMapper.getCollectionsByPage(userId, offset, pageSize);
-        int count = collectionMapper.getCollectionCount(userId);
+        List<Collection> collections = collectionMapper.getByPage(userId, offset, pageSize);
+        int count = collectionMapper.getCount(userId);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(collections);

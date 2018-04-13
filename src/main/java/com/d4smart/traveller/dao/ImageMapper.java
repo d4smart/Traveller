@@ -18,7 +18,7 @@ public interface ImageMapper {
 
     int updateByPrimaryKey(Image record);
 
-    List<Image> getImagesByPage(@Param("userId") Integer userId, @Param("offset") Integer offset, @Param("limit") Integer limit);
+    List<Image> getByPage(@Param("userId") Integer userId, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
-    int getImageCount(@Param("userId") Integer userId);
+    int getCount(@Param("userId") Integer userId);
 }

@@ -22,8 +22,8 @@ public interface CommentMapper {
 
     int unlike(Integer id);
 
-    List<Comment> getCommentsByPage(@Param("userId") Integer userId, @Param("guideId") Integer guideId,
-                                    @Param("offset") Integer offset, @Param("limit") Integer limit);
+    List<Comment> getByPage(@Param("userId") Integer userId, @Param("guideId") Integer guideId,
+                            @Param("offset") Integer offset, @Param("limit") Integer limit);
 
-    int getCommentCount(@Param("userId") Integer userId, @Param("guideId") Integer guideId);
+    int getCount(@Param("userId") Integer userId, @Param("guideId") Integer guideId);
 }

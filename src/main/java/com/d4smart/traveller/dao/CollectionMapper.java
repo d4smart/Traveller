@@ -18,7 +18,7 @@ public interface CollectionMapper {
 
     int updateByPrimaryKey(Collection record);
 
-    List<Collection> getCollectionsByPage(@Param("userId") Integer userId, @Param("offset") Integer offset, @Param("limit") Integer limit);
+    List<Collection> getByPage(@Param("userId") Integer userId, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
-    int getCollectionCount(@Param("userId") Integer userId);
+    int getCount(@Param("userId") Integer userId);
 }

@@ -3,14 +3,14 @@ package com.d4smart.traveller.dao.cache;
 import com.d4smart.traveller.util.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 /**
  * Created by d4smart on 2018/3/29 10:47
  */
-@Component
+@Repository("redisDao")
 public class RedisDao {
 
     private final JedisPool jedisPool = new JedisPool(
@@ -28,21 +28,15 @@ public class RedisDao {
     public Boolean like(String key, Integer userId) {
         String value = userId.toString();
 
-        try {
-            Jedis jedis = jedisPool.getResource();
-
-            try {
-                if (jedis.sismember(key, value)) {
-                    return false;
-                }
-
-                jedis.sadd(key, value);
-                return true;
-            } finally {
-                jedis.close();
+        try (Jedis jedis = jedisPool.getResource()) {
+            if (jedis.sismember(key, value)) {
+                return false;
             }
+
+            jedis.sadd(key, value);
+            return true;
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
 
         return false;
@@ -57,19 +51,13 @@ public class RedisDao {
     public Boolean unlike(String key, Integer userId) {
         String value = userId.toString();
 
-        try {
-            Jedis jedis = jedisPool.getResource();
-
-            try {
-                if (!jedis.sismember(key, value)) {
-                    return false;
-                }
-
-                jedis.srem(key, value);
-                return true;
-            } finally {
-                jedis.close();
+        try (Jedis jedis = jedisPool.getResource()) {
+            if (!jedis.sismember(key, value)) {
+                return false;
             }
+
+            jedis.srem(key, value);
+            return true;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

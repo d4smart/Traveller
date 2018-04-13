@@ -89,7 +89,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getCommentsByPage" parameterType="map" resultMap="BaseResultMap">
+  <select id="getByPage" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from comment
@@ -105,7 +105,7 @@
     limit #{offset}, #{limit}
   </select>
 
-  <select id="getCommentCount" parameterType="map" resultType="int">
+  <select id="getCount" parameterType="map" resultType="int">
     select count(1)
     from comment
     <where>
