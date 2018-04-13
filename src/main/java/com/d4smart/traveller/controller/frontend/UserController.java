@@ -1,12 +1,14 @@
 package com.d4smart.traveller.controller.frontend;
 
 import com.d4smart.traveller.common.Const;
+import com.d4smart.traveller.common.PageInfo;
 import com.d4smart.traveller.common.ServerResponse;
 import com.d4smart.traveller.pojo.User;
 import com.d4smart.traveller.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -57,6 +59,30 @@ public class UserController {
     @RequestMapping(value = "/checkValid", method = RequestMethod.GET)
     public ServerResponse checkValid(String type, String value) {
         return userService.checkValid(type, value);
+    }
+
+    @RequestMapping(value = "/follow", method = RequestMethod.POST)
+    public ServerResponse follow(@RequestParam(value = "id") Integer followId, HttpSession session) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return userService.follow(user.getId(), followId);
+    }
+
+    @RequestMapping(value = "/unfollow", method = RequestMethod.POST)
+    public ServerResponse unfollow(@RequestParam(value = "id") Integer followId, HttpSession session) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return userService.unfollow(user.getId(), followId);
+    }
+
+    @RequestMapping(value = "/follower", method = RequestMethod.GET)
+    public ServerResponse<PageInfo> follower(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return userService.follower(user.getId(), pageNum, pageSize);
+    }
+
+    @RequestMapping(value = "/following", method = RequestMethod.GET)
+    public ServerResponse<PageInfo> following(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return userService.following(user.getId(), pageNum, pageSize);
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)

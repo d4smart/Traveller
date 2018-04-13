@@ -1,13 +1,19 @@
 package com.d4smart.traveller.service;
 
 import com.d4smart.traveller.common.Const;
+import com.d4smart.traveller.common.PageInfo;
 import com.d4smart.traveller.common.ServerResponse;
+import com.d4smart.traveller.dao.FollowMapper;
 import com.d4smart.traveller.dao.UserMapper;
+import com.d4smart.traveller.pojo.Follow;
 import com.d4smart.traveller.pojo.User;
 import com.d4smart.traveller.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by d4smart on 2018/3/30 9:21
@@ -17,6 +23,9 @@ public class UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private FollowMapper followMapper;
 
     public ServerResponse register(User user) {
         if (user.getUsername() == null || user.getPassword() == null) {
@@ -108,5 +117,72 @@ public class UserService {
         }
 
         return ServerResponse.createBySuccessMessage("校验成功");
+    }
+
+    public ServerResponse follow(Integer userId, Integer followId) {
+        if (userId.equals(followId)) {
+            return ServerResponse.createByErrorMessage("自己不能关注自己");
+        }
+
+        User user = userMapper.selectByPrimaryKey(followId);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("要关注的用户不存在");
+        }
+
+        Follow follow = new Follow();
+        follow.setUserId(userId);
+        follow.setFollowId(followId);
+
+        try {
+            int count = followMapper.insertSelective(follow);
+            if (count == 0) {
+                return ServerResponse.createByErrorMessage("关注用户失败");
+            }
+        } catch (DuplicateKeyException e) {
+            // 唯一键冲突
+            return ServerResponse.createByErrorMessage("您已经关注过这个用户");
+        }
+
+        return ServerResponse.createBySuccessMessage("关注用户成功");
+    }
+
+    public ServerResponse unfollow(Integer userId, Integer followId) {
+        if (userId.equals(followId)) {
+            return ServerResponse.createByErrorMessage("自己不能取消关注自己");
+        }
+
+        User user = userMapper.selectByPrimaryKey(followId);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("要取消关注的用户不存在");
+        }
+
+        int count = followMapper.delete(userId, followId);
+        if (count == 0) {
+            return ServerResponse.createByErrorMessage("取消关注用户失败");
+        }
+
+        return ServerResponse.createBySuccessMessage("取消关注用户成功");
+    }
+
+    public ServerResponse<PageInfo> follower(Integer id, int pageNum, int pageSize) {
+        int offset = (pageNum - 1) * pageSize;
+        List<Follow> follows = followMapper.getFollowsByPage(null, id, offset, pageSize);
+        int count = followMapper.getFollowCount(null, id);
+
+        PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
+        pageInfo.setList(follows);
+
+        return ServerResponse.createBySuccess(pageInfo);
+    }
+
+    public ServerResponse<PageInfo> following(Integer id, int pageNum, int pageSize) {
+        int offset = (pageNum - 1) * pageSize;
+        List<Follow> follows = followMapper.getFollowsByPage(id, null, offset, pageSize);
+        int count = followMapper.getFollowCount(id, null);
+
+        PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
+        pageInfo.setList(follows);
+
+        return ServerResponse.createBySuccess(pageInfo);
     }
 }

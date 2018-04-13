@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.d4smart.traveller.dao.FollowMapper" >
+  <resultMap id="BaseResultMap" type="com.d4smart.traveller.pojo.Follow" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="follow_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, follow_id, create_time, update_time
+  </sql>
+  <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Follow" >
+    insert into follow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="followId != null" >
+        follow_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="followId != null" >
+        #{followId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="delete" parameterType="map">
+    delete from follow
+    where user_id = #{userId}
+    and follow_id = #{followId}
+  </delete>
+
+  <select id="getFollowsByPage" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from follow
+    <where>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+      <if test="followId != null">
+        and follow_id = #{followId}
+      </if>
+    </where>
+    order by id desc
+    limit #{offset}, #{limit}
+  </select>
+
+  <select id="getFollowCount" parameterType="map" resultType="int">
+    select count(1)
+    from follow
+    <where>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+      <if test="followId != null">
+        and follow_id = #{followId}
+      </if>
+    </where>
+  </select>
+</mapper>
