@@ -5,6 +5,7 @@ import com.d4smart.traveller.common.PageInfo;
 import com.d4smart.traveller.common.ServerResponse;
 import com.d4smart.traveller.pojo.User;
 import com.d4smart.traveller.service.UserService;
+import com.google.code.kaptcha.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,12 +25,22 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ServerResponse register(User user) {
+    public ServerResponse register(User user, String captcha, HttpSession session) {
+        String expected = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
+        if (expected == null || !expected.equals(captcha)) {
+            return ServerResponse.createByErrorMessage("验证码错误");
+        }
+
         return userService.register(user);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ServerResponse<User> login(String username, String password, HttpSession session) {
+    public ServerResponse<User> login(String username, String password, String captcha, HttpSession session) {
+        String expected = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
+        if (expected == null || !expected.equals(captcha)) {
+            return ServerResponse.createByErrorMessage("验证码错误");
+        }
+
         ServerResponse<User> serverResponse = userService.login(username, password);
         if (serverResponse.isSuccess()) {
             session.setAttribute(Const.LOGIN_USER, serverResponse.getData());

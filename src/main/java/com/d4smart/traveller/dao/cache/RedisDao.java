@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * Created by d4smart on 2018/3/29 10:47
@@ -14,8 +15,12 @@ import redis.clients.jedis.JedisPool;
 public class RedisDao {
 
     private final JedisPool jedisPool = new JedisPool(
+            new JedisPoolConfig(),
             PropertiesUtil.getProperty("redis.ip", "127.0.0.1"),
-            Integer.parseInt(PropertiesUtil.getProperty("redis.port", "6379")));
+            Integer.parseInt(PropertiesUtil.getProperty("redis.port", "6379")),
+            2000,
+            PropertiesUtil.getProperty("redis.password", "")
+    );
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

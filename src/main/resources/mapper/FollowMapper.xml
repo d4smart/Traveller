@@ -1,36 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.d4smart.traveller.dao.FollowMapper" >
-  <resultMap id="BaseResultMap" type="com.d4smart.traveller.pojo.Follow" >
+  <resultMap id="UserResultMap" type="com.d4smart.traveller.pojo.User" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="follow_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="gender" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="phone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="avatar" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="signature" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="can_login" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="can_publish" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="is_admin" jdbcType="BIT" javaType="java.lang.Boolean" />
       <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, user_id, follow_id, create_time, update_time
+  <sql id="User_Column_List" >
+    user.*
   </sql>
-  <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Follow" >
-    insert into follow
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="followId != null" >
-        follow_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="followId != null" >
-        #{followId,jdbcType=INTEGER},
-      </if>
-    </trim>
+  <insert id="insert" parameterType="map" >
+    insert into follow (user_id, follow_id)
+    values (#{userId,jdbcType=INTEGER}, #{followId,jdbcType=INTEGER})
   </insert>
 
   <delete id="delete" parameterType="map">
@@ -39,23 +31,24 @@
     and follow_id = #{followId}
   </delete>
 
-  <select id="getFollowsByPage" parameterType="map" resultMap="BaseResultMap">
+  <select id="getByPage" parameterType="map" resultMap="UserResultMap">
     select
-    <include refid="Base_Column_List" />
+    <include refid="User_Column_List" />
     from follow
-    <where>
-      <if test="userId != null">
-        and user_id = #{userId}
-      </if>
-      <if test="followId != null">
-        and follow_id = #{followId}
-      </if>
-    </where>
-    order by id desc
+    left join user
+    <if test="userId != null">
+      on follow.follow_id = user.id
+      where follow.user_id = #{userId}
+    </if>
+    <if test="followId != null">
+      on follow.user_id = user.id
+      where follow.follow_id = #{followId}
+    </if>
+    order by id
     limit #{offset}, #{limit}
   </select>
 
-  <select id="getFollowCount" parameterType="map" resultType="int">
+  <select id="getCount" parameterType="map" resultType="int">
     select count(1)
     from follow
     <where>

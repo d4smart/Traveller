@@ -5,7 +5,6 @@ import com.d4smart.traveller.common.PageInfo;
 import com.d4smart.traveller.common.ServerResponse;
 import com.d4smart.traveller.dao.FollowMapper;
 import com.d4smart.traveller.dao.UserMapper;
-import com.d4smart.traveller.pojo.Follow;
 import com.d4smart.traveller.pojo.User;
 import com.d4smart.traveller.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
@@ -65,8 +64,6 @@ public class UserService {
             return ServerResponse.createByErrorMessage("暂时不可以登陆，如有疑问，请联系后台管理员");
         }
 
-        user.setPassword(null);
-
         return ServerResponse.createBySuccess("登陆成功", user);
     }
 
@@ -93,7 +90,6 @@ public class UserService {
         }
 
         user = userMapper.selectByPrimaryKey(user.getId());
-        user.setPassword(null);
 
         return ServerResponse.createBySuccess("更新用户信息成功", user);
     }
@@ -129,12 +125,8 @@ public class UserService {
             return ServerResponse.createByErrorMessage("要关注的用户不存在");
         }
 
-        Follow follow = new Follow();
-        follow.setUserId(userId);
-        follow.setFollowId(followId);
-
         try {
-            int count = followMapper.insertSelective(follow);
+            int count = followMapper.insert(userId, followId);
             if (count == 0) {
                 return ServerResponse.createByErrorMessage("关注用户失败");
             }
@@ -166,22 +158,22 @@ public class UserService {
 
     public ServerResponse<PageInfo> follower(Integer id, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
-        List<Follow> follows = followMapper.getFollowsByPage(null, id, offset, pageSize);
-        int count = followMapper.getFollowCount(null, id);
+        List<User> followers = followMapper.getByPage(null, id, offset, pageSize);
+        int count = followMapper.getCount(null, id);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
-        pageInfo.setList(follows);
+        pageInfo.setList(followers);
 
         return ServerResponse.createBySuccess(pageInfo);
     }
 
     public ServerResponse<PageInfo> following(Integer id, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
-        List<Follow> follows = followMapper.getFollowsByPage(id, null, offset, pageSize);
-        int count = followMapper.getFollowCount(id, null);
+        List<User> followings = followMapper.getByPage(id, null, offset, pageSize);
+        int count = followMapper.getCount(id, null);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
-        pageInfo.setList(follows);
+        pageInfo.setList(followings);
 
         return ServerResponse.createBySuccess(pageInfo);
     }

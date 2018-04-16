@@ -1,17 +1,17 @@
 package com.d4smart.traveller.dao;
 
-import com.d4smart.traveller.pojo.Follow;
+import com.d4smart.traveller.pojo.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface FollowMapper {
-    int insertSelective(Follow record);
+    int insert(@Param("userId") Integer userId, @Param("followId") Integer followId);
 
     int delete(@Param("userId") Integer userId, @Param("followId") Integer followId);
 
-    List<Follow> getFollowsByPage(@Param("userId") Integer userId, @Param("followId") Integer followId,
-                                     @Param("offset") Integer offset, @Param("limit") Integer limit);
+    List<User> getByPage(@Param("userId") Integer userId, @Param("followId") Integer followId,
+                         @Param("offset") Integer offset, @Param("limit") Integer limit);
 
-    int getFollowCount(@Param("userId") Integer userId, @Param("followId") Integer followId);
+    int getCount(@Param("userId") Integer userId, @Param("followId") Integer followId);
 }
