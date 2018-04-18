@@ -4,7 +4,9 @@ import com.d4smart.traveller.common.Const;
 import com.d4smart.traveller.common.PageInfo;
 import com.d4smart.traveller.common.ServerResponse;
 import com.d4smart.traveller.dao.FollowMapper;
+import com.d4smart.traveller.dao.GuideMapper;
 import com.d4smart.traveller.dao.UserMapper;
+import com.d4smart.traveller.pojo.Guide;
 import com.d4smart.traveller.pojo.User;
 import com.d4smart.traveller.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +27,9 @@ public class UserService {
 
     @Autowired
     private FollowMapper followMapper;
+
+    @Autowired
+    private GuideMapper guideMapper;
 
     public ServerResponse register(User user) {
         if (user.getUsername() == null || user.getPassword() == null) {
@@ -174,6 +179,17 @@ public class UserService {
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
         pageInfo.setList(followings);
+
+        return ServerResponse.createBySuccess(pageInfo);
+    }
+
+    public ServerResponse<PageInfo> dynamics(Integer id, int pageNum, int pageSize) {
+        int offset = (pageNum - 1) * pageSize;
+        List<Guide> guides = guideMapper.getDynamicsByPage(id, offset, pageSize);
+        int count = guideMapper.getDynamicCount(id) + guideMapper.getCount(null, id, null, true);
+
+        PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
+        pageInfo.setList(guides);
 
         return ServerResponse.createBySuccess(pageInfo);
     }

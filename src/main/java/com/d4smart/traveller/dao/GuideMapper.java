@@ -28,4 +28,8 @@ public interface GuideMapper {
     int increase(@Param("field") String field, @Param("id") Integer id);
 
     int decrease(@Param("field") String field, @Param("id") Integer id);
+
+    List<Guide> getDynamicsByPage(@Param("userId") Integer userId, @Param("offset") Integer offset, @Param("limit") Integer limit);
+
+    int getDynamicCount(Integer userId);
 }

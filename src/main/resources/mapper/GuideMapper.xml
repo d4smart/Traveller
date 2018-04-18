@@ -39,6 +39,10 @@
   <sql id="Simple_Column_List" >
     id, title, author_id, places, thumbnail, views, likes, comments, create_time, update_time
   </sql>
+  <sql id="Simple_Column_List_With_Prefix" >
+    guide.id, guide.title, guide.author_id, guide.places, guide.thumbnail, guide.views, guide.likes, guide.comments,
+    guide.create_time, guide.update_time
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
@@ -229,4 +233,31 @@
     set ${field} = ${field} - 1
     where id = #{id}
   </update>
+
+  <select id="getDynamicsByPage" parameterType="map" resultMap="SimpleResultMap">
+    select
+    <include refid="Simple_Column_List_With_Prefix" />
+    from guide
+    join follow
+    on guide.author_id = follow.follow_id
+    where follow.user_id = #{userId}
+    and guide.is_published = true
+    union
+    select
+    <include refid="Simple_Column_List" />
+    from guide
+    where author_id = #{userId}
+    and is_published = true
+    order by id desc
+    limit #{offset}, #{limit}
+  </select>
+
+  <select id="getDynamicCount" parameterType="int" resultType="int">
+    select count(1)
+    from guide
+    join follow
+    on guide.author_id = follow.follow_id
+    where follow.user_id = #{userId}
+    and guide.is_published = true
+  </select>
 </mapper>

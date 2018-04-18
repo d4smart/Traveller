@@ -96,6 +96,12 @@ public class UserController {
         return userService.following(user.getId(), pageNum, pageSize);
     }
 
+    @RequestMapping(value = "/dynamics", method = RequestMethod.GET)
+    public ServerResponse<PageInfo> dynamics(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return userService.dynamics(user.getId(), pageNum, pageSize);
+    }
+
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ServerResponse logout(HttpSession session) {
         session.removeAttribute(Const.LOGIN_USER);

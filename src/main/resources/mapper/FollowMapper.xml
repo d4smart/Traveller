@@ -35,7 +35,7 @@
     select
     <include refid="User_Column_List" />
     from follow
-    left join user
+    join user
     <if test="userId != null">
       on follow.follow_id = user.id
       where follow.user_id = #{userId}
