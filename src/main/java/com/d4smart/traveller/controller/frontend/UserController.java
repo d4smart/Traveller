@@ -73,13 +73,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/follow", method = RequestMethod.POST)
-    public ServerResponse follow(@RequestParam(value = "id") Integer followId, HttpSession session) {
+    public ServerResponse follow(@RequestParam(value = "id", required = false) Integer followId, HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
         return userService.follow(user.getId(), followId);
     }
 
     @RequestMapping(value = "/unfollow", method = RequestMethod.POST)
-    public ServerResponse unfollow(@RequestParam(value = "id") Integer followId, HttpSession session) {
+    public ServerResponse unfollow(@RequestParam(value = "id", required = false) Integer followId, HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
         return userService.unfollow(user.getId(), followId);
     }

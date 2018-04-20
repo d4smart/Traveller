@@ -128,6 +128,10 @@ public class UserService {
     }
 
     public ServerResponse follow(Integer userId, Integer followId) {
+        if (followId == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         if (userId.equals(followId)) {
             return ServerResponse.createByErrorMessage("自己不能关注自己");
         }
@@ -151,6 +155,10 @@ public class UserService {
     }
 
     public ServerResponse unfollow(Integer userId, Integer followId) {
+        if (followId == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         if (userId.equals(followId)) {
             return ServerResponse.createByErrorMessage("自己不能取消关注自己");
         }
