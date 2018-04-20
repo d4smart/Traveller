@@ -9,11 +9,11 @@ import com.d4smart.traveller.dao.UserMapper;
 import com.d4smart.traveller.pojo.Guide;
 import com.d4smart.traveller.pojo.User;
 import com.d4smart.traveller.util.MD5Util;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,9 +35,12 @@ public class UserService {
         if (user.getUsername() == null || user.getPassword() == null) {
             return ServerResponse.createByErrorMessage("用户信息不完整");
         }
+        if (user.getGender() != null && !Arrays.asList(Const.GENDER).contains(user.getGender())) {
+            return ServerResponse.createByErrorMessage("用户性别填写错误");
+        }
 
         // 注册信息唯一性检查
-        if (user.getUsername() != null && userMapper.checkUnique(Const.USERNAME, user.getUsername()) > 0) {
+        if (userMapper.checkUnique(Const.USERNAME, user.getUsername()) > 0) {
             return ServerResponse.createByErrorMessage("用户名已存在");
         }
         if (user.getPhone() != null && userMapper.checkUnique(Const.PHONE, user.getPhone()) > 0) {
@@ -59,6 +62,10 @@ public class UserService {
     }
 
     public ServerResponse<User> login(String username, String password) {
+        if (username == null || password == null) {
+            return ServerResponse.createByErrorMessage("用户名或密码不能为空");
+        }
+
         password = MD5Util.MD5EncodeUtf8(password);
 
         User user = userMapper.login(username, password);
@@ -73,6 +80,10 @@ public class UserService {
     }
 
     public ServerResponse<User> update(User user) {
+        if (user.getGender() != null && !Arrays.asList(Const.GENDER).contains(user.getGender())) {
+            return ServerResponse.createByErrorMessage("用户性别填写错误");
+        }
+
         // 注册信息唯一性检查
         if (user.getUsername() != null && userMapper.checkUnique(Const.USERNAME, user.getUsername()) > 0) {
             return ServerResponse.createByErrorMessage("用户名已存在");
@@ -100,10 +111,6 @@ public class UserService {
     }
 
     public ServerResponse checkValid(String type, String value) {
-        if (StringUtils.isBlank(type)) {
-            return ServerResponse.createByErrorMessage("参数错误");
-        }
-
         // 校验
         if (Const.USERNAME.equals(type)) {
             if (userMapper.checkUnique(type, value) > 0) {

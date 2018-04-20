@@ -26,6 +26,10 @@ public class CollectionService {
     private GuideMapper guideMapper;
 
     public ServerResponse add(Integer userId, Integer guideId) {
+        if (guideId == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Guide guide = guideMapper.selectByPrimaryKey(guideId);
         if (guide == null) {
             return ServerResponse.createByErrorMessage("要收藏的攻略不存在");
@@ -63,6 +67,10 @@ public class CollectionService {
     }
 
     public ServerResponse delete(Integer id, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Collection collection = collectionMapper.selectByPrimaryKey(id);
         if (collection == null) {
             return ServerResponse.createByErrorMessage("收藏不存在");

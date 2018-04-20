@@ -48,6 +48,10 @@ public class ImageService {
     }
 
     public ServerResponse edit(Integer id, MultipartFile file, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Image image = imageMapper.selectByPrimaryKey(id);
         if (image == null) {
             return ServerResponse.createByErrorMessage("图片不存在");
@@ -74,6 +78,10 @@ public class ImageService {
     }
 
     public ServerResponse delete(Integer id, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Image image = imageMapper.selectByPrimaryKey(id);
         if (image == null) {
             return ServerResponse.createByErrorMessage("图片不存在");

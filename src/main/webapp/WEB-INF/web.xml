@@ -69,6 +69,16 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+  <!-- 请求参数过滤器 -->
+  <filter>
+    <filter-name>ParameterFilter</filter-name>
+    <filter-class>com.d4smart.traveller.filter.ParameterFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ParameterFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   <!-- SpringMvc前端控制器 -->
   <servlet>
     <servlet-name>dispatcher</servlet-name>

@@ -9,7 +9,6 @@ import com.d4smart.traveller.dao.GuideMapper;
 import com.d4smart.traveller.dao.cache.RedisDao;
 import com.d4smart.traveller.pojo.Comment;
 import com.d4smart.traveller.pojo.Guide;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,7 @@ public class CommentService {
     private RedisDao redisDao;
 
     public ServerResponse add(Integer userId, Integer guideId, String content) {
-        if (guideId == null || StringUtils.isBlank(content)) {
+        if (guideId == null || content == null) {
             return ServerResponse.createByErrorMessage("参数不合法");
         }
 
@@ -62,7 +61,7 @@ public class CommentService {
     }
 
     public ServerResponse edit(Comment comment, Integer userId) {
-        if (comment.getId() == null || StringUtils.isBlank(comment.getContent())) {
+        if (comment.getId() == null || comment.getContent() == null) {
             return ServerResponse.createByErrorMessage("参数不合法");
         }
 
@@ -87,6 +86,10 @@ public class CommentService {
     }
 
     public ServerResponse<Comment> get(Integer id) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Comment comment = commentMapper.selectByPrimaryKey(id);
         if (comment == null) {
             return ServerResponse.createByErrorMessage("评论不存在");
@@ -114,6 +117,10 @@ public class CommentService {
     }
 
     public ServerResponse like(Integer id, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Comment comment = commentMapper.selectByPrimaryKey(id);
         if (comment == null) {
             return ServerResponse.createByErrorMessage("要点赞的评论不存在");
@@ -133,6 +140,10 @@ public class CommentService {
     }
 
     public ServerResponse unlike(Integer id, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Comment comment = commentMapper.selectByPrimaryKey(id);
         if (comment == null) {
             return ServerResponse.createByErrorMessage("要取消点赞的评论不存在");
@@ -152,6 +163,10 @@ public class CommentService {
     }
 
     public ServerResponse delete(Integer id, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Comment comment = commentMapper.selectByPrimaryKey(id);
         if (comment == null) {
             return ServerResponse.createByErrorMessage("评论不存在");

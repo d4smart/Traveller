@@ -101,6 +101,10 @@ public class GuideService {
     }
 
     public ServerResponse<Guide> get(Integer id) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数不合法");
+        }
+
         Guide guide = guideMapper.selectByPrimaryKey(id);
         if (guide == null) {
             return ServerResponse.createByErrorMessage("获取攻略失败");
@@ -119,6 +123,10 @@ public class GuideService {
     }
 
     public ServerResponse like(Integer id, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Guide guide = guideMapper.selectByPrimaryKey(id);
         if (guide == null) {
             return ServerResponse.createByErrorMessage("要点赞的攻略不存在");
@@ -141,6 +149,10 @@ public class GuideService {
     }
 
     public ServerResponse unlike(Integer id, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Guide guide = guideMapper.selectByPrimaryKey(id);
         if (guide == null) {
             return ServerResponse.createByErrorMessage("要取消点赞的攻略不存在");
@@ -163,6 +175,10 @@ public class GuideService {
     }
 
     public ServerResponse delete(Integer id, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
         Guide guide = guideMapper.selectByPrimaryKey(id);
         if (guide == null) {
             return ServerResponse.createByErrorMessage("要删除的攻略不存在");
