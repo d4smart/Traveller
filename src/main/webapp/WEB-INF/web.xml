@@ -122,8 +122,9 @@
     <servlet-name>DruidStatView</servlet-name>
     <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
     <init-param>
+      <!-- 允许清空统计数据 -->
       <param-name>resetEnable</param-name>
-      <param-value>false</param-value>
+      <param-value>true</param-value>
     </init-param>
     <init-param>
       <param-name>loginUsername</param-name>
