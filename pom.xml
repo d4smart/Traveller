@@ -97,9 +97,9 @@
 
     <!-- 数据库连接池 -->
     <dependency>
-      <groupId>commons-dbcp</groupId>
-      <artifactId>commons-dbcp</artifactId>
-      <version>1.4</version>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.1.6</version>
     </dependency>
 
     <!-- redis java客户端 -->

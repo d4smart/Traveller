@@ -176,24 +176,13 @@ public class UserService {
         return ServerResponse.createBySuccessMessage("取消关注用户成功");
     }
 
-    public ServerResponse<PageInfo> follower(Integer id, int pageNum, int pageSize) {
+    public ServerResponse<PageInfo> follows(Integer userId, Integer followId, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
-        List<User> followers = followMapper.getByPage(null, id, offset, pageSize);
-        int count = followMapper.getCount(null, id);
+        List<User> follows = followMapper.getByPage(userId, followId, offset, pageSize);
+        int count = followMapper.getCount(userId, followId);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
-        pageInfo.setList(followers);
-
-        return ServerResponse.createBySuccess(pageInfo);
-    }
-
-    public ServerResponse<PageInfo> following(Integer id, int pageNum, int pageSize) {
-        int offset = (pageNum - 1) * pageSize;
-        List<User> followings = followMapper.getByPage(id, null, offset, pageSize);
-        int count = followMapper.getCount(id, null);
-
-        PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
-        pageInfo.setList(followings);
+        pageInfo.setList(follows);
 
         return ServerResponse.createBySuccess(pageInfo);
     }

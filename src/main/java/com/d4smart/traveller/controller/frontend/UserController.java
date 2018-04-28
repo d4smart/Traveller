@@ -87,13 +87,13 @@ public class UserController {
     @RequestMapping(value = "/follower", method = RequestMethod.GET)
     public ServerResponse<PageInfo> follower(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
-        return userService.follower(user.getId(), pageNum, pageSize);
+        return userService.follows(null, user.getId(), pageNum, pageSize);
     }
 
     @RequestMapping(value = "/following", method = RequestMethod.GET)
     public ServerResponse<PageInfo> following(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
-        return userService.following(user.getId(), pageNum, pageSize);
+        return userService.follows(user.getId(), null, pageNum, pageSize);
     }
 
     @RequestMapping(value = "/dynamics", method = RequestMethod.GET)
