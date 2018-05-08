@@ -48,10 +48,15 @@ public class UserController {
         return serverResponse;
     }
 
-    @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
-    public ServerResponse<User> getUserInfo(HttpSession session) {
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public ServerResponse<User> info(HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
         return ServerResponse.createBySuccess(user);
+    }
+
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public ServerResponse get(Integer id) {
+        return userService.get(id);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)

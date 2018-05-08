@@ -74,13 +74,24 @@ public class GuideService {
         return ServerResponse.createBySuccessMessage("更新攻略成功");
     }
 
+    public ServerResponse<PageInfo> recommend(Boolean isPublished, int pageNum, int pageSize) {
+        int offset = (pageNum - 1) * pageSize;
+        List<Guide> guides = guideMapper.getByPage(null, null, null, isPublished, Const.SCORE, offset, pageSize);
+        int count = guideMapper.getCount(null, null, null, isPublished);
+
+        PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
+        pageInfo.setList(guides);
+
+        return ServerResponse.createBySuccess(pageInfo);
+    }
+
     public ServerResponse<PageInfo> search(String title, String places, Boolean isPublished, int pageNum, int pageSize) {
         if (title == null && places == null) {
             return ServerResponse.createByErrorMessage("搜索条件不合法");
         }
 
         int offset = (pageNum - 1) * pageSize;
-        List<Guide> guides = guideMapper.getByPage(title, null, places, isPublished, offset, pageSize);
+        List<Guide> guides = guideMapper.getByPage(title, null, places, isPublished, Const.ID, offset, pageSize);
         int count = guideMapper.getCount(title, null, places, isPublished);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
@@ -90,8 +101,10 @@ public class GuideService {
     }
 
     public ServerResponse<PageInfo> list(Integer userId, Boolean isPublished, int pageNum, int pageSize) {
+        // 不检查用户的存在性
+
         int offset = (pageNum - 1) * pageSize;
-        List<Guide> guides = guideMapper.getByPage(null, userId, null, isPublished, offset, pageSize);
+        List<Guide> guides = guideMapper.getByPage(null, userId, null, isPublished, Const.ID, offset, pageSize);
         int count = guideMapper.getCount(null, userId, null, isPublished);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
@@ -105,7 +118,7 @@ public class GuideService {
             return ServerResponse.createByErrorMessage("参数不合法");
         }
 
-        Guide guide = guideMapper.selectByPrimaryKey(id);
+        Guide guide = guideMapper.get(id);
         if (guide == null) {
             return ServerResponse.createByErrorMessage("获取攻略失败");
         }

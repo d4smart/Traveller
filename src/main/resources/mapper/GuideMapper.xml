@@ -32,6 +32,20 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+
+  <resultMap id="AuthorResultMap" type="com.d4smart.traveller.pojo.User">
+    <result property="username" column="username"/>
+    <result property="avatar" column="avatar"/>
+    <result property="signature" column="signature"/>
+  </resultMap>
+
+  <resultMap id="BaseResultMapWithAuthor" type="com.d4smart.traveller.pojo.Guide" extends="BaseResultMap">
+    <association property="author" javaType="com.d4smart.traveller.pojo.User" resultMap="AuthorResultMap"/>
+  </resultMap>
+  <resultMap id="SimpleResultMapWithAuthor" type="com.d4smart.traveller.pojo.Guide" extends="SimpleResultMap">
+    <association property="author" javaType="com.d4smart.traveller.pojo.User" resultMap="AuthorResultMap"/>
+  </resultMap>
+
   <sql id="Base_Column_List" >
     id, title, author_id, places, thumbnail, content, views, likes, comments, score,
     is_published, create_time, update_time
@@ -43,6 +57,10 @@
     guide.id, guide.title, guide.author_id, guide.places, guide.thumbnail, guide.views, guide.likes, guide.comments,
     guide.create_time, guide.update_time
   </sql>
+  <sql id="Author_Column_List_With_Prefix">
+    user.username, user.avatar, user.signature
+  </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
@@ -181,25 +199,36 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getByPage" parameterType="map" resultMap="SimpleResultMap">
+  <select id="get" parameterType="int" resultMap="BaseResultMapWithAuthor">
     select
-    <include refid="Simple_Column_List"/>
+    guide.*, <include refid="Author_Column_List_With_Prefix"/>
     from guide
+    join user
+    on guide.author_id = user.id
+    where guide.id = #{id}
+  </select>
+
+  <select id="getByPage" parameterType="map" resultMap="SimpleResultMapWithAuthor">
+    select
+    <include refid="Simple_Column_List_With_Prefix"/>, <include refid="Author_Column_List_With_Prefix"/>
+    from guide
+    join user
+    on guide.author_id = user.id
     <where>
       <if test="title != null">
-        and title like "%"#{title}"%"
+        and guide.title like "%"#{title}"%"
       </if>
       <if test="authorId != null">
-        and author_id = #{authorId}
+        and guide.author_id = #{authorId}
       </if>
       <if test="places != null">
-        and places like "%"#{places}"%"
+        and guide.places like "%"#{places}"%"
       </if>
       <if test="isPublished != null">
-        and is_published = #{isPublished}
+        and guide.is_published = #{isPublished}
       </if>
     </where>
-    order by id desc
+    order by ${sortField} desc
     limit #{offset}, #{limit}
   </select>
 
@@ -234,20 +263,24 @@
     where id = #{id}
   </update>
 
-  <select id="getDynamicsByPage" parameterType="map" resultMap="SimpleResultMap">
+  <select id="getDynamicsByPage" parameterType="map" resultMap="SimpleResultMapWithAuthor">
     select
-    <include refid="Simple_Column_List_With_Prefix" />
+    <include refid="Simple_Column_List_With_Prefix"/>, <include refid="Author_Column_List_With_Prefix"/>
     from guide
     join follow
     on guide.author_id = follow.follow_id
+    join user
+    on guide.author_id = user.id
     where follow.user_id = #{userId}
     and guide.is_published = true
     union
     select
-    <include refid="Simple_Column_List" />
+    <include refid="Simple_Column_List_With_Prefix"/>, <include refid="Author_Column_List_With_Prefix"/>
     from guide
-    where author_id = #{userId}
-    and is_published = true
+    join user
+    on guide.author_id = user.id
+    where guide.author_id = #{userId}
+    and guide.is_published = true
     order by id desc
     limit #{offset}, #{limit}
   </select>

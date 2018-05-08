@@ -3,6 +3,7 @@ package com.d4smart.traveller.service;
 import com.d4smart.traveller.common.Const;
 import com.d4smart.traveller.common.PageInfo;
 import com.d4smart.traveller.common.ServerResponse;
+import com.d4smart.traveller.dao.CollectionMapper;
 import com.d4smart.traveller.dao.FollowMapper;
 import com.d4smart.traveller.dao.GuideMapper;
 import com.d4smart.traveller.dao.UserMapper;
@@ -14,7 +15,9 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by d4smart on 2018/3/30 9:21
@@ -30,6 +33,9 @@ public class UserService {
 
     @Autowired
     private GuideMapper guideMapper;
+
+    @Autowired
+    private CollectionMapper collectionMapper;
 
     public ServerResponse register(User user) {
         if (user.getUsername() == null || user.getPassword() == null) {
@@ -77,6 +83,33 @@ public class UserService {
         }
 
         return ServerResponse.createBySuccess("登陆成功", user);
+    }
+
+    public ServerResponse get(Integer id) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
+        User user = userMapper.selectByPrimaryKey(id);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+
+        user.setCanLogin(null);
+        user.setCanPublish(null);
+        user.setIsAdmin(null);
+
+        int follower = followMapper.getCount(null, id);
+        int following = followMapper.getCount(id, null);
+        int collection = collectionMapper.getCount(id);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("user", user);
+        map.put("follower", follower);
+        map.put("following", following);
+        map.put("collection", collection);
+
+        return ServerResponse.createBySuccess(map);
     }
 
     public ServerResponse<User> update(User user) {

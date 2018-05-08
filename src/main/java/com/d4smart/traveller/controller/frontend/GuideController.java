@@ -36,15 +36,24 @@ public class GuideController {
         return guideService.edit(guide, user.getId());
     }
 
+    @RequestMapping(value = "/recommend", method = RequestMethod.GET)
+    public ServerResponse<PageInfo> recommend(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
+        return guideService.recommend(true, pageNum, pageSize);
+    }
+
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ServerResponse<PageInfo> search(String title, String places, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
         return guideService.search(title, places, true, pageNum, pageSize);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ServerResponse<PageInfo> list(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
-        User user = (User) session.getAttribute(Const.LOGIN_USER);
-        return guideService.list(user.getId(), true, pageNum, pageSize);
+    public ServerResponse<PageInfo> list(Integer userId, HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
+        if (userId == null) {
+            User user = (User) session.getAttribute(Const.LOGIN_USER);
+            userId = user.getId();
+        }
+
+        return guideService.list(userId, true, pageNum, pageSize);
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)

@@ -11,7 +11,9 @@ public class Const {
     public static final String[] GENDER = {"男", "女"};
     public static final String PHONE = "phone";
 
+    public static final String ID = "id";
     public static final String VIEW = "views";
     public static final String LIKE = "likes";
     public static final String COMMENT = "comments";
+    public static final String SCORE = "views";
 }

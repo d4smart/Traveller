@@ -12,6 +12,8 @@ public class Guide {
 
     private Integer authorId;
 
+    private User author;
+
     private String places;
 
     private String thumbnail;
@@ -87,6 +89,14 @@ public class Guide {
 
     public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public String getPlaces() {
