@@ -33,7 +33,7 @@ public class UpdateScore {
         return views + 5 * likes + 3 * comments;
     }
 
-    @Scheduled(cron = "* 19 * * * ?")
+    @Scheduled(cron = "13 19 * * * ?")
     public void updateScore() {
         long start = System.currentTimeMillis();
 
