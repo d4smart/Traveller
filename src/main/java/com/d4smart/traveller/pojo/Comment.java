@@ -7,6 +7,8 @@ public class Comment {
 
     private Integer userId;
 
+    private User user;
+
     private Integer guideId;
 
     private String content;
@@ -45,6 +47,14 @@ public class Comment {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getGuideId() {

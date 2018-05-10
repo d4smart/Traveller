@@ -35,6 +35,12 @@ public class CollectionController {
         return collectionService.list(user.getId(), pageNum, pageSize);
     }
 
+    @RequestMapping(value = "/isCollected", method = RequestMethod.GET)
+    public ServerResponse isCollected(Integer guideId, HttpSession session) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return collectionService.isCollected(user.getId(), guideId);
+    }
+
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public ServerResponse delete(Integer guideId, HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);

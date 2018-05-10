@@ -187,6 +187,19 @@ public class GuideService {
         return ServerResponse.createBySuccessMessage("取消点赞成功");
     }
 
+    public ServerResponse isLiked(Integer id, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
+        String key = "guide:" + id;
+        if (redisDao.isLiked(key, userId)) {
+            return ServerResponse.createBySuccessMessage("点赞了这篇攻略");
+        } else {
+            return ServerResponse.createByErrorMessage("没有给这篇攻略点赞");
+        }
+    }
+
     public ServerResponse delete(Integer id, Integer userId) {
         if (id == null) {
             return ServerResponse.createByErrorMessage("参数错误");

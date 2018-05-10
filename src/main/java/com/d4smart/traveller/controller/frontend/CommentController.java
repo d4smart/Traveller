@@ -60,6 +60,12 @@ public class CommentController {
         return commentService.unlike(id, user.getId());
     }
 
+    @RequestMapping(value = "/isLiked", method = RequestMethod.GET)
+    public ServerResponse isLiked(Integer id, HttpSession session) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return commentService.isLiked(id, user.getId());
+    }
+
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public ServerResponse delete(Integer id, HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);

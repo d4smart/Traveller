@@ -89,6 +89,12 @@ public class UserController {
         return userService.unfollow(user.getId(), followId);
     }
 
+    @RequestMapping(value = "/isFollowing", method = RequestMethod.GET)
+    public ServerResponse isFollowing(@RequestParam(value = "id", required = false) Integer followId, HttpSession session) {
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
+        return userService.isFollowing(user.getId(), followId);
+    }
+
     @RequestMapping(value = "/follower", method = RequestMethod.GET)
     public ServerResponse<PageInfo> follower(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);

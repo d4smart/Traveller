@@ -69,4 +69,23 @@ public class RedisDao {
 
         return false;
     }
+
+    /**
+     * 用户是否给内容点过赞
+     * @param key 内容的key
+     * @param userId 用户id
+     * @return 结果
+     */
+    public Boolean isLiked(String key, Integer userId) {
+        String value = userId.toString();
+        Boolean result = false;
+
+        try (Jedis jedis = jedisPool.getResource()) {
+            result = jedis.sismember(key, value);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        return result;
+    }
 }

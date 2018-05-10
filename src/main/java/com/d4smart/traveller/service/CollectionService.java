@@ -65,6 +65,19 @@ public class CollectionService {
         return ServerResponse.createBySuccess(pageInfo);
     }
 
+    public ServerResponse isCollected(Integer userId, Integer guideId) {
+        if (guideId == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
+        Collection collection = collectionMapper.select(userId, guideId);
+        if (collection == null) {
+            return ServerResponse.createByErrorMessage("没有收藏这篇攻略");
+        }
+
+        return ServerResponse.createBySuccessMessage("收藏了这篇攻略");
+    }
+
     public ServerResponse delete(Integer userId, Integer guideId) {
         if (guideId == null) {
             return ServerResponse.createByErrorMessage("参数错误");

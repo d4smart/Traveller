@@ -209,6 +209,19 @@ public class UserService {
         return ServerResponse.createBySuccessMessage("取消关注用户成功");
     }
 
+    public ServerResponse isFollowing(Integer userId, Integer followId) {
+        if (followId == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
+        int count = followMapper.getCount(userId, followId);
+        if (count == 0) {
+            return ServerResponse.createByErrorMessage("没有关注这个用户");
+        }
+
+        return ServerResponse.createBySuccessMessage("关注了这个用户");
+    }
+
     public ServerResponse<PageInfo> follows(Integer userId, Integer followId, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
         List<User> follows = followMapper.getByPage(userId, followId, offset, pageSize);

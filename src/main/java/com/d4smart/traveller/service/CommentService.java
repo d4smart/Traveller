@@ -90,7 +90,7 @@ public class CommentService {
             return ServerResponse.createByErrorMessage("参数错误");
         }
 
-        Comment comment = commentMapper.selectByPrimaryKey(id);
+        Comment comment = commentMapper.get(id);
         if (comment == null) {
             return ServerResponse.createByErrorMessage("评论不存在");
         }
@@ -160,6 +160,19 @@ public class CommentService {
         }
 
         return ServerResponse.createBySuccessMessage("取消点赞成功");
+    }
+
+    public ServerResponse isLiked(Integer id, Integer userId) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
+        String key = "comment:" + id;
+        if (redisDao.isLiked(key, userId)) {
+            return ServerResponse.createBySuccessMessage("点赞了这条评论");
+        } else {
+            return ServerResponse.createByErrorMessage("没有给这条评论点赞");
+        }
     }
 
     public ServerResponse delete(Integer id, Integer userId) {
