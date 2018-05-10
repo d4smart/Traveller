@@ -1,7 +1,6 @@
 package com.d4smart.traveller.service;
 
 import com.d4smart.traveller.common.PageInfo;
-import com.d4smart.traveller.common.ResponseCode;
 import com.d4smart.traveller.common.ServerResponse;
 import com.d4smart.traveller.dao.CollectionMapper;
 import com.d4smart.traveller.dao.GuideMapper;
@@ -57,29 +56,26 @@ public class CollectionService {
 
     public ServerResponse<PageInfo> list(Integer userId, int pageNum, int pageSize) {
         int offset = (pageNum - 1) * pageSize;
-        List<Collection> collections = collectionMapper.getByPage(userId, offset, pageSize);
+        List<Guide> guides = collectionMapper.getByPage(userId, offset, pageSize);
         int count = collectionMapper.getCount(userId);
 
         PageInfo pageInfo = new PageInfo(pageNum, pageSize, count);
-        pageInfo.setList(collections);
+        pageInfo.setList(guides);
 
         return ServerResponse.createBySuccess(pageInfo);
     }
 
-    public ServerResponse delete(Integer id, Integer userId) {
-        if (id == null) {
+    public ServerResponse delete(Integer userId, Integer guideId) {
+        if (guideId == null) {
             return ServerResponse.createByErrorMessage("参数错误");
         }
 
-        Collection collection = collectionMapper.selectByPrimaryKey(id);
+        Collection collection = collectionMapper.select(userId, guideId);
         if (collection == null) {
             return ServerResponse.createByErrorMessage("收藏不存在");
         }
-        if (!userId.equals(collection.getUserId())) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.PERMISSION_DENIED.getCode(), ResponseCode.PERMISSION_DENIED.getDesc());
-        }
 
-        int count = collectionMapper.deleteByPrimaryKey(id);
+        int count = collectionMapper.deleteByPrimaryKey(collection.getId());
         if (count == 0) {
             return ServerResponse.createByErrorMessage("取消收藏失败");
         }

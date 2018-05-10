@@ -10,8 +10,26 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+  <resultMap id="GuideResultMap" type="com.d4smart.traveller.pojo.Guide" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="author_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="places" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="thumbnail" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="views" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="likes" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="comments" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, guide_id, create_time, update_time
+  </sql>
+  <sql id="Guide_Column_List_With_Prefix" >
+    guide.id, guide.title, guide.author_id, guide.places, guide.thumbnail, guide.views, guide.likes, guide.comments,
+    guide.create_time, guide.update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
@@ -65,16 +83,25 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getByPage" parameterType="map" resultMap="BaseResultMap">
+  <select id="select" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from collection
+    where user_id = #{userId}
+    and guide_id = #{guideId}
+  </select>
+
+  <select id="getByPage" parameterType="map" resultMap="GuideResultMap">
+    select
+    <include refid="Guide_Column_List_With_Prefix" />
+    from collection
+    join guide
+    on collection.guide_id = guide.id
     <where>
       <if test="userId != null">
-        and user_id = #{userId}
+        and collection.user_id = #{userId}
       </if>
     </where>
-    order by id desc
     limit #{offset}, #{limit}
   </select>
 

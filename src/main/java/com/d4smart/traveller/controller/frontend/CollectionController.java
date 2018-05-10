@@ -36,8 +36,8 @@ public class CollectionController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ServerResponse delete(Integer id, HttpSession session) {
+    public ServerResponse delete(Integer guideId, HttpSession session) {
         User user = (User) session.getAttribute(Const.LOGIN_USER);
-        return collectionService.delete(id, user.getId());
+        return collectionService.delete(user.getId(), guideId);
     }
 }

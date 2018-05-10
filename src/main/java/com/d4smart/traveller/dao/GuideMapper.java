@@ -34,4 +34,8 @@ public interface GuideMapper {
     List<Guide> getDynamicsByPage(@Param("userId") Integer userId, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
     int getDynamicCount(Integer userId);
+
+    List<Guide> getAll();
+
+    int updateScore(@Param("id") Integer id, @Param("score") Integer score);
 }

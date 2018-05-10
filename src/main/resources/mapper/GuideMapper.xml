@@ -293,4 +293,16 @@
     where follow.user_id = #{userId}
     and guide.is_published = true
   </select>
+
+  <select id="getAll" resultMap="SimpleResultMap">
+    select
+    <include refid="Simple_Column_List"/>
+    from guide
+  </select>
+
+  <update id="updateScore" parameterType="map">
+    update guide
+    set score = #{score}
+    where id = #{id}
+  </update>
 </mapper>
