@@ -77,4 +77,19 @@
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getByPage" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from trail
+    where user_id = #{userId}
+    order by id desc
+    limit #{offset}, #{limit}
+  </select>
+
+  <select id="getCount" parameterType="int" resultType="int">
+    select count(1)
+    from trail
+    where user_id = #{userId}
+  </select>
 </mapper>

@@ -8,7 +8,7 @@ public class Point {
 
     private Integer trailId;
 
-    private Integer order;
+    private Integer sequence;
 
     private BigDecimal longitude;
 
@@ -20,10 +20,10 @@ public class Point {
 
     private Date updateTime;
 
-    public Point(Integer id, Integer trailId, Integer order, BigDecimal longitude, BigDecimal latitude, String description, Date createTime, Date updateTime) {
+    public Point(Integer id, Integer trailId, Integer sequence, BigDecimal longitude, BigDecimal latitude, String description, Date createTime, Date updateTime) {
         this.id = id;
         this.trailId = trailId;
-        this.order = order;
+        this.sequence = sequence;
         this.longitude = longitude;
         this.latitude = latitude;
         this.description = description;
@@ -51,12 +51,12 @@ public class Point {
         this.trailId = trailId;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getSequence() {
+        return sequence;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 
     public BigDecimal getLongitude() {

@@ -5,7 +5,7 @@
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="trail_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="order" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="sequence" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="longitude" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
       <arg column="latitude" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
       <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -14,7 +14,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, trail_id, order, longitude, latitude, description, create_time, update_time
+    id, trail_id, sequence, longitude, latitude, description, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -27,9 +27,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.d4smart.traveller.pojo.Point" >
-    insert into point (trail_id, order,
+    insert into point (trail_id, sequence,
       longitude, latitude, description)
-    values (#{trailId,jdbcType=INTEGER}, #{order,jdbcType=INTEGER},
+    values (#{trailId,jdbcType=INTEGER}, #{sequence,jdbcType=INTEGER},
       #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.d4smart.traveller.pojo.Point" >
@@ -38,8 +38,8 @@
       <if test="trailId != null" >
         trail_id,
       </if>
-      <if test="order != null" >
-        order,
+      <if test="sequence != null" >
+        sequence,
       </if>
       <if test="longitude != null" >
         longitude,
@@ -55,8 +55,8 @@
       <if test="trailId != null" >
         #{trailId,jdbcType=INTEGER},
       </if>
-      <if test="order != null" >
-        #{order,jdbcType=INTEGER},
+      <if test="sequence != null" >
+        #{sequence,jdbcType=INTEGER},
       </if>
       <if test="longitude != null" >
         #{longitude,jdbcType=DECIMAL},
@@ -75,8 +75,8 @@
       <if test="trailId != null" >
         trail_id = #{trailId,jdbcType=INTEGER},
       </if>
-      <if test="order != null" >
-        order = #{order,jdbcType=INTEGER},
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
       </if>
       <if test="longitude != null" >
         longitude = #{longitude,jdbcType=DECIMAL},
@@ -93,10 +93,25 @@
   <update id="updateByPrimaryKey" parameterType="com.d4smart.traveller.pojo.Point" >
     update point
     set trail_id = #{trailId,jdbcType=INTEGER},
-      order = #{order,jdbcType=INTEGER},
+      sequence = #{sequence,jdbcType=INTEGER},
       longitude = #{longitude,jdbcType=DECIMAL},
       latitude = #{latitude,jdbcType=DECIMAL},
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getByPage" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from point
+    where trail_id = #{trailId}
+    order by sequence
+    limit #{offset}, #{limit}
+  </select>
+
+  <select id="getCount" parameterType="int" resultType="int">
+    select count(1)
+    from point
+    where trail_id = #{trailId}
+  </select>
 </mapper>
